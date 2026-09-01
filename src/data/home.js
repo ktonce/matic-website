@@ -52,17 +52,6 @@ export const cases = [
     lavorazioni: 'Insegna a parete, vetrofania e allestimento interno, prodotti e installati da noi.',
     risultato: "Insegna, vetrofania e allestimento interno coordinati in un'unica identità visiva, prodotti e installati da un solo referente.",
     imageFirst: true
-  },
-  {
-    eyebrow: 'ATTIVITÀ LOCALE · SITO WEB E PRESENZA ONLINE',
-    title: ['La stessa identità', 'anche online'],
-    image: '/media/portfolio-geox.jpg',
-    alt: 'Caso studio: identità coordinata anche online',
-    esigenza: "Sito fermo da anni e nessuna presenza curata sulle mappe: online l'attività non si trovava.",
-    soluzione: 'Nuovo sito coordinato con insegna e automezzi, scheda mappe e piano di contenuti.',
-    lavorazioni: 'Sito vetrina con modulo preventivi, gestione scheda mappe, social e campagne locali.',
-    risultato: "Sito, scheda mappe e contenuti social allineati all'immagine di insegna e automezzi, con un modulo preventivi come canale diretto di contatto.",
-    imageFirst: false
   }
 ];
 
@@ -70,8 +59,8 @@ export const chiSiamo = {
   h2: ["DA OLTRE VENT'ANNI", 'TRASFORMIAMO IDEE', 'IN SEGNI VISIBILI.'],
   text: "Da oltre vent'anni aiutiamo aziende, negozi e professionisti a rendere riconoscibile la propria attività. Nel nostro laboratorio uniamo progettazione grafica, lavorazioni artigianali, tecnologie di stampa e installazione. Oggi affianchiamo alla comunicazione visiva anche strumenti digitali, per offrire ai clienti un'immagine coerente dentro e fuori dal web. Lavoriamo ogni giorno per le aziende di Fucecchio, del Comprensorio del Cuoio e delle zone tra Firenze, Pisa e Lucca.",
   bullets: ['Oltre 20 anni di esperienza', 'Produzione interna', 'Un unico referente', 'Progettazione e installazione', 'Assistenza diretta'],
-  image: '/media/chi-siamo.jpg',
-  alt: 'Il laboratorio Matic di Fucecchio'
+  image: '/media/sede-matic-1200.jpg',
+  alt: 'La sede MATIC a Fucecchio'
 };
 
 export const servizi = [

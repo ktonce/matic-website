@@ -6,7 +6,7 @@ export const seo = {
   '/': {
     title: 'MATIC | Stampa, insegne e comunicazione',
     description: 'Insegne, stampa, decorazione automezzi, vetrofanie, allestimenti e incisioni. Progettiamo, produciamo e installiamo soluzioni di comunicazione dal nostro laboratorio di Fucecchio.',
-    ogImage: '/media/portfolio-cm.jpg'
+    ogImage: '/media/sede-matic-1200.jpg'
   },
   '/insegne': {
     title: 'Insegne luminose e su misura a Fucecchio | MATIC',
