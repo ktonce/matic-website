@@ -201,6 +201,10 @@
   border: 1px solid var(--orange); background: var(--white);
   padding: clamp(28px,4vw,44px); display: flex; gap: 16px; align-items: flex-start;
 }
+/* display:flex sovrascriveva il display:none nativo di [hidden]: il box va tenuto
+   nascosto finché il server non conferma il lead. Stessa cosa per .form-fallback. */
+.form-success[hidden],
+.form-fallback[hidden] { display: none !important; }
 .form-success__tick { font: 500 22px var(--font-display); color: var(--orange); line-height: 1; }
 .form-success__title { font: 500 clamp(19px,2.1vw,26px)/1.3 var(--font-display); color: var(--dark); margin: 0; }
 .form-success__text { font: 400 15px/1.6 var(--font-body); color: var(--grey-600); margin: 8px 0 0; }

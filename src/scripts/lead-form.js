@@ -33,10 +33,17 @@ function validate(data) {
 }
 
 export function initLeadForm() {
+  // Stato iniziale esplicito: nessun box di conferma visibile al load, su ogni pagina.
+  document.querySelectorAll('[data-form-success]').forEach(el => { el.hidden = true; });
+  document.querySelectorAll('[data-form-fallback]').forEach(el => { el.hidden = true; });
+
   const form = document.querySelector('[data-lead-form]');
   if (!form) return;
 
-  const success = document.querySelector('[data-form-success]');
+  // Il box di conferma è il fratello precedente del form: lookup scoped, non globale.
+  const success = form.parentElement
+    ? form.parentElement.querySelector('[data-form-success]')
+    : document.querySelector('[data-form-success]');
   const status = form.querySelector('[data-form-status]');
   const fallback = form.querySelector('[data-form-fallback]');
   const submit = form.querySelector('[type="submit"]');
