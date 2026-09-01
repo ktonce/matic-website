@@ -214,7 +214,8 @@ import LogoRail from '../components/LogoRail.astro';
         <h2 class="processo__h2">Come lavoriamo</h2>
         <p class="processo__lead">Seguiamo ogni progetto dall'idea alla realizzazione, coordinando competenze creative, tecniche e produttive.</p>
       </div>
-      <ol class="timeline">
+      <ol class="timeline" data-process-timeline>
+        <span class="timeline__progress" aria-hidden="true"></span>
         {processSteps.map((s) => (
           <li class="timeline__step">
             <span class="timeline__num">{s.num}</span>
@@ -281,6 +282,11 @@ import LogoRail from '../components/LogoRail.astro';
   <Lightbox slot="after" />
 </Base>
 
+<script>
+  import { initProcessReveal } from '../scripts/process-reveal.js';
+  initProcessReveal();
+</script>
+
 <style>
   /* Homepage. Le colonne che nel prototipo erano calcolate in JS (isNarrow)
      sono qui media query: 900px per il layout, 1180px per le griglie a 3-4 col. */
@@ -308,6 +314,12 @@ import LogoRail from '../components/LogoRail.astro';
     .home-hero { grid-template-columns: 1fr; min-height: auto; }
     .home-hero__collage { display: none; }
     .home-hero__mobile-img { display: block; }
+  }
+  /* Mobile: hero solo tipografica. Nessuna immagine, per non far sembrare
+     un lavoro cliente la sede MATIC. */
+  @media (max-width: 767px) {
+    .home-hero__mobile-img { display: none; }
+    .home-hero__facts { margin-top: 32px; }
   }
 
   /* Titoli */
@@ -425,8 +437,27 @@ import LogoRail from '../components/LogoRail.astro';
   .processo__head { max-width: 640px; margin: 0 auto 56px; text-align: center; }
   .processo__h2 { font: 500 clamp(28px,3.4vw,40px)/1.2 var(--font-display); color: var(--offwhite); margin: 14px 0 16px; }
   .processo__lead { font: 400 15px/1.6 var(--font-body); color: var(--grey-400); margin: 0; }
-  .timeline { list-style: none; margin: 0 auto; padding: 0 0 0 20px; max-width: 760px; border-left: 2px solid rgba(250,250,248,.15); display: flex; flex-direction: column; gap: 6px; }
+  .timeline { list-style: none; margin: 0 auto; padding: 0 0 0 20px; max-width: 760px; border-left: 2px solid rgba(250,250,248,.15); display: flex; flex-direction: column; gap: 6px; position: relative; }
   .timeline__step { padding: 14px 0 14px 20px; }
+  /* Linea di progressione: si riempie man mano che gli step compaiono. */
+  .timeline__progress {
+    position: absolute; left: -2px; top: 0; width: 2px; height: 100%;
+    background: var(--orange); transform-origin: top;
+    transform: scaleY(var(--process-progress, 0));
+    transition: transform 700ms cubic-bezier(.22,.61,.36,1);
+    opacity: 0;
+  }
+  /* Stato iniziale applicato solo quando lo script è attivo. */
+  .timeline[data-reveal-ready] .timeline__progress { opacity: 1; }
+  .timeline[data-reveal-ready] .timeline__step {
+    opacity: 0; transform: translateY(16px);
+    transition: opacity 520ms ease, transform 520ms cubic-bezier(.22,.61,.36,1);
+  }
+  .timeline[data-reveal-ready] .timeline__step[data-revealed] { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .timeline__progress { display: none; }
+    .timeline[data-reveal-ready] .timeline__step { opacity: 1; transform: none; transition: none; }
+  }
   .timeline__num { font: 700 20px var(--font-mono); color: var(--orange); }
   .timeline__title { font: 600 16px var(--font-display); color: var(--offwhite); margin: 6px 0 4px; }
   .timeline__desc { font: 400 14px/1.6 var(--font-body); color: var(--grey-400); margin: 0; max-width: 520px; }

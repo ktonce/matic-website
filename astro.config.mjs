@@ -11,6 +11,8 @@ export default defineConfig({
     webAnalytics: { enabled: false }
   }),
   trailingSlash: 'never',
-  build: { format: 'file' },
+  // format: 'directory' è il default supportato dall'adapter Vercel: ogni pagina
+  // diventa <route>/index.html e la route pulita /privacy risolve senza rewrite.
+  build: { format: 'directory' },
   compressHTML: true
 });
