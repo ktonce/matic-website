@@ -1,0 +1,12 @@
+---
+import { mainNav } from '../data/navigation.js';
+const { current, ctaHref = '/#contatti', ctaLabel = 'Richiedi un preventivo' } = Astro.props;
+---
+{/* Aperto/chiuso via nav.js. hidden garantisce che senza JS non copra la pagina. */}
+<nav class="mobile-menu" data-mobile-menu hidden aria-label="Navigazione principale">
+  <button class="mobile-menu__close" data-nav-close type="button" aria-label="Chiudi il menu">×</button>
+  {mainNav.map((item) => (
+    <a href={item.slug} aria-current={current === item.slug ? 'page' : undefined}>{item.label}</a>
+  ))}
+  <a class="mobile-menu__cta" href={ctaHref}>{ctaLabel}</a>
+</nav>

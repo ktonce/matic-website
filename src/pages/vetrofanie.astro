@@ -1,0 +1,250 @@
+---
+import '../styles/service.css';
+import Base from '../layouts/Base.astro';
+import LeadForm from '../components/LeadForm.astro';
+import { site, waLink } from '../data/site.js';
+import { servizi, vetrofanie as d } from '../data/services.js';
+import { pick } from '../data/testimonials.js';
+
+const [testimonial] = pick(['Paola F.']);
+---
+<Base path="/vetrofanie" ctaHref="#preventivo" waText={d.waText} stickyCtaHref="#preventivo">
+
+  {/* ── HERO — TODO FOTO: manca la foto reale di una vetrina ─────────────── */}
+  <section id="top" class="vt-hero">
+    <div class="container">
+      <span class="eyebrow">{d.hero.eyebrow}</span>
+      <div class="vt-hero__grid">
+        <h1 class="svc-hero__h1">{d.hero.h1}</h1>
+        <div>
+          <p class="vt-hero__lead">{d.hero.lead}</p>
+          <div class="btn-row">
+            <a class="btn btn--primary" href="#preventivo">{d.hero.ctaLabel}</a>
+            <a class="btn btn--ghost-dark" href={d.hero.secondaryHref}>{d.hero.secondaryLabel}</a>
+          </div>
+        </div>
+      </div>
+      <div class="vt-hero__facts">
+        {d.hero.facts.map((f, i) => (
+          <>
+            {i > 0 && <span class="svc-hero__sep">·</span>}
+            <span class="svc-hero__fact">{f}</span>
+          </>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/*
+    PORTFOLIO e PRIMA/DOPO — non renderizzati: `lavori` e `primaDopo` sono vuoti.
+    TODO FOTO: servono fotografie reali di vetrine realizzate; per il prima/dopo
+    una coppia reale dello stesso intervento. Nessun confronto ricostruito.
+  */}
+
+  {/* ── SOLUZIONI ────────────────────────────────────────────────────────── */}
+  <section id="soluzioni" class="section section--light vt-soluzioni">
+    <div class="container">
+      <div class="split split--end">
+        <div>
+          <span class="eyebrow eyebrow--accent">{d.soluzioniHead.eyebrow}</span>
+          <h2 class="svc-h2-mid">{d.soluzioniHead.h2}</h2>
+        </div>
+        <p class="svc-muted">{d.soluzioniHead.lead}</p>
+      </div>
+      <div class="vt-sol-grid">
+        {d.soluzioni.map((sol) => (
+          <article class="vt-sol">
+            <h3 class="vt-sol__title">{sol.title}</h3>
+            <p class="vt-sol__desc">{sol.desc}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ── COORDINAMENTO CON L'INSEGNA + testimonial Paola F. ───────────────── */}
+  <section class="section--dark vt-coord">
+    <div class="container split split--file">
+      <div>
+        <span class="eyebrow">{d.coordinamento.eyebrow}</span>
+        <h2 class="svc-h2-light vt-coord__h2">{d.coordinamento.h2}</h2>
+      </div>
+      <div>
+        <p class="svc-territorio__text">{d.coordinamento.text}</p>
+        <a class="svc-territorio__link" href={d.coordinamento.linkHref}>{d.coordinamento.link}</a>
+        {testimonial && (
+          <figure class="testimonial testimonial--on-dark vt-testimonial">
+            <blockquote>{testimonial.text}</blockquote>
+            <figcaption>{testimonial.name} · {testimonial.role}</figcaption>
+          </figure>
+        )}
+      </div>
+    </div>
+  </section>
+
+  {/* ── PROCESSO + PERCHÉ MATIC ──────────────────────────────────────────── */}
+  <section id="processo" class="section section--light">
+    <div class="container">
+      <h2 class="vt-h2">{d.processoH2}</h2>
+      <ol class="svc-steps vt-steps">
+        {d.steps.map((st) => (
+          <li class="svc-step stampa-step">
+            <span class="stampa-step__num">{st.num}</span>
+            <h3 class="stampa-step__title">{st.title}</h3>
+            <p class="stampa-step__desc">{st.desc}</p>
+          </li>
+        ))}
+      </ol>
+
+      <div class="vt-perche">
+        <h2 class="vt-h2 vt-h2--sm">{d.percheH2}</h2>
+        <div class="vt-perks">
+          {d.perks.map((p) => (
+            <div>
+              <span class="vt-perk__num">{p.num}</span>
+              <h3 class="vt-perk__title">{p.title}</h3>
+              <p class="vt-perk__desc">{p.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ── WHATSAPP ─────────────────────────────────────────────────────────── */}
+  <section class="wa-band">
+    <div class="container wa-band__inner">
+      <div style="max-width:560px">
+        <h2 class="wa-band__h2">{d.whatsapp.h2}</h2>
+        <p class="wa-band__text">{d.whatsapp.text}</p>
+      </div>
+      <a class="wa-band__cta" href={waLink(d.waText)} target="_blank" rel="noopener">{d.whatsapp.cta}</a>
+    </div>
+  </section>
+
+  {/* ── CTA + FORM ───────────────────────────────────────────────────────── */}
+  <section id="preventivo" class="section section--light">
+    <div class="container">
+      <div class="form-head">
+        <h2 class="form-head__h2">{d.form.h2}</h2>
+        <p class="form-head__lead">{d.form.lead}</p>
+      </div>
+      <div id="form" class="svc-form-grid">
+        <div>
+          <LeadForm
+            formId="preventivo-vetrofanie"
+            servizio="Vetrofanie e decorazione vetrine"
+            servizi={servizi}
+            extra={d.form.extra}
+            aziendaLabel={d.form.aziendaLabel}
+            submitLabel={d.form.submitLabel}
+            waText={d.waText}
+          />
+        </div>
+        <aside class="contatti-aside">
+          <div class="aside__label">OPPURE SCRIVICI SUBITO</div>
+          <div class="aside__actions">
+            <a class="btn btn--primary" href={waLink(d.waText)} target="_blank" rel="noopener" style="text-align:center">Invia una foto su WhatsApp</a>
+            <a class="btn btn--ghost-light" href={site.tel.href} style="text-align:center">Chiama lo {site.tel.display}</a>
+            <a class="btn" href={site.email.href} style="color:var(--offwhite);background:var(--dark);text-align:center">Scrivici una email</a>
+          </div>
+          <div class="aside__sede">
+            <div class="aside__label">LA NOSTRA SEDE</div>
+            <p class="aside__name">MATIC</p>
+            <p class="aside__addr">{site.address.street}<br />{site.address.zip} {site.address.city} ({site.address.province})</p>
+            <a class="aside__maps" href={site.maps} target="_blank" rel="noopener">Apri su Google Maps</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  {/* ── FAQ ──────────────────────────────────────────────────────────────── */}
+  <section id="faq" class="section section--light" style="padding-top:0">
+    <div class="container bordered-top split">
+      <div>
+        <span class="eyebrow eyebrow--accent">{d.faqHead.eyebrow}</span>
+        <h2 class="svc-h2-light svc-h2-light--dark">{d.faqHead.h2}</h2>
+      </div>
+      <div class="faq">
+        {d.faqs.map((f) => (
+          <details>
+            <summary>{f.q}<span class="faq__plus" aria-hidden="true">+</span></summary>
+            <p class="faq__answer">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ── TERRITORIO + CROSS-SELL ──────────────────────────────────────────── */}
+  <section id="territorio" class="section--dark vt-territorio">
+    <div class="container">
+      <div class="split split--file">
+        <h2 class="svc-h2-light">{d.territorio.h2}</h2>
+        <p class="svc-territorio__text">{d.territorio.text}</p>
+      </div>
+      <div class="container bordered-top-light split split--file vt-cross">
+        <h2 class="vt-cross__h2">{d.cross.h2}</h2>
+        <div class="svc-cross">
+          {d.cross.links.map((l) => <a href={l.href}>{l.label}<span aria-hidden="true">→</span></a>)}
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .vt-hero { background: var(--dark); padding: 132px var(--pad-x) 96px; }
+  @media (max-width: 899px) { .vt-hero { padding: 104px clamp(20px,5vw,40px) 56px; } }
+  .vt-hero__grid { display: grid; grid-template-columns: minmax(320px,1.15fr) minmax(280px,.85fr); gap: clamp(24px,4vw,72px); align-items: end; }
+  @media (max-width: 899px) { .vt-hero__grid { grid-template-columns: 1fr; } }
+  .vt-hero__lead { font: 400 var(--fs-lead)/1.7 var(--font-body); color: var(--grey-400); margin: 0 0 28px; max-width: 460px; }
+  .vt-hero__facts {
+    margin-top: clamp(32px,4.5vw,56px); padding-top: clamp(26px,3.5vw,42px);
+    border-top: 1px solid var(--line-light);
+    display: flex; flex-wrap: wrap; gap: 9px 22px; align-items: center;
+  }
+
+  .vt-soluzioni { padding: clamp(56px,8vw,104px) var(--pad-x); }
+  .vt-sol-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px,4vw,64px); }
+  @media (max-width: 899px) { .vt-sol-grid { grid-template-columns: 1fr; } }
+  .vt-sol { min-width: 0; padding-top: 22px; border-top: 1px solid rgba(26,29,35,.16); }
+  .vt-sol__title { font: 500 clamp(22px,2.6vw,32px)/1.2 var(--font-display); color: var(--dark); margin: 0 0 12px; letter-spacing: -.01em; }
+  .vt-sol__desc { font: 400 15.5px/1.7 var(--font-body); color: var(--grey-600); margin: 0; max-width: 480px; }
+
+  .vt-coord { padding: clamp(48px,6.5vw,84px) var(--pad-x); }
+  .vt-coord__h2 { font-size: clamp(24px,3.2vw,42px); }
+  .vt-testimonial { margin: clamp(32px,4vw,48px) 0 0; }
+  .split--file { grid-template-columns: minmax(280px,.9fr) minmax(320px,1.1fr); gap: clamp(24px,4vw,72px); align-items: start; }
+  @media (max-width: 899px) { .split--file { grid-template-columns: 1fr; } }
+
+  .vt-h2 { font: 500 clamp(26px,3.4vw,44px)/1.1 var(--font-display); color: var(--dark); margin: 0 0 clamp(28px,3.5vw,48px); letter-spacing: -.01em; }
+  .vt-h2--sm { font-size: clamp(24px,3.2vw,42px); margin-bottom: clamp(26px,3.5vw,44px); }
+  .vt-steps { grid-template-columns: repeat(3,1fr); margin-bottom: clamp(44px,6vw,80px); }
+  @media (max-width: 899px) { .vt-steps { grid-template-columns: 1fr; } }
+  .vt-steps .stampa-step { border-left-color: var(--line-dark); }
+  @media (max-width: 899px) { .vt-steps .stampa-step { border-top-color: var(--line-dark); } }
+  .vt-perche { padding-top: clamp(32px,4vw,48px); border-top: 1px solid var(--line-dark); }
+  .vt-perks { display: grid; grid-template-columns: repeat(4,1fr); gap: clamp(20px,3vw,40px); }
+  @media (max-width: 1179px) { .vt-perks { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 899px)  { .vt-perks { grid-template-columns: 1fr; } }
+  .vt-perk__num { display: block; font: 700 10.5px var(--font-mono); letter-spacing: .14em; color: var(--accent-text); margin-bottom: 12px; }
+  .vt-perk__title { font: 500 clamp(19px,2vw,25px)/1.2 var(--font-display); color: var(--dark); margin: 0 0 10px; letter-spacing: -.01em; }
+  .vt-perk__desc { font: 400 14.5px/1.65 var(--font-body); color: var(--grey-600); margin: 0; }
+
+  .vt-territorio { padding: clamp(56px,8vw,96px) var(--pad-x); }
+  .vt-cross { margin-top: clamp(40px,5vw,64px); }
+  .vt-cross__h2 { font: 500 clamp(20px,2.4vw,28px)/1.2 var(--font-display); color: var(--offwhite); margin: 0; letter-spacing: -.01em; }
+
+  .wa-band { background: var(--orange); padding: clamp(40px,5.5vw,72px) var(--pad-x); }
+  .wa-band__inner { display: flex; flex-wrap: wrap; gap: 24px 48px; align-items: center; justify-content: space-between; }
+  .wa-band__h2 { font: 500 clamp(22px,2.8vw,36px)/1.15 var(--font-display); color: var(--dark); margin: 0; letter-spacing: -.01em; }
+  .wa-band__text { font: 400 15px/1.6 var(--font-body); color: rgba(26,29,35,.75); margin: 10px 0 0; }
+  .wa-band__cta { display: inline-flex; align-items: center; gap: 10px; font: 600 15px var(--font-body); color: var(--offwhite); background: var(--dark); padding: 18px 28px; border-radius: var(--radius); min-height: 44px; transition: transform .15s ease; }
+  .wa-band__cta:hover { transform: translateY(-2px); color: var(--offwhite); }
+
+  .stampa-step__num { display: block; font: 700 10.5px var(--font-mono); letter-spacing: .14em; color: var(--accent-text); margin-bottom: 14px; }
+  .stampa-step__title { font: 500 18px/1.25 var(--font-display); color: var(--dark); margin: 0 0 10px; }
+  .stampa-step__desc { font: 400 13.8px/1.6 var(--font-body); color: var(--grey-500); margin: 0; }
+</style>

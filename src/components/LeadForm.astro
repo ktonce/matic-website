@@ -1,0 +1,102 @@
+---
+import { site, waLink } from '../data/site.js';
+
+/*
+  FORM LEAD — struttura e payload identici ai prototipi approvati.
+    formId       identificatore univoco della pagina (arriva nell'email)
+    servizio     valore preselezionato del campo "servizio"
+    servizi      elenco della select; se vuoto il servizio va in un input hidden
+    extra        campi specifici della pagina ({ name, label, type, options, placeholder })
+    aziendaLabel etichetta del campo azienda (varia per pagina)
+  Nessuna credenziale nel client: l'invio passa da /api/lead.
+*/
+const {
+  formId,
+  servizio,
+  servizi = [],
+  extra = [],
+  aziendaLabel = 'AZIENDA',
+  submitLabel = 'Richiedi il preventivo',
+  waText = ''
+} = Astro.props;
+---
+<div class="form-success" data-form-success hidden>
+  <span class="form-success__tick" aria-hidden="true">✓</span>
+  <div>
+    <p class="form-success__title">Richiesta ricevuta</p>
+    <p class="form-success__text">Grazie. Ti ricontatteremo per approfondire la richiesta.</p>
+  </div>
+</div>
+
+<form class="lead-form" data-lead-form data-form-id={formId} novalidate>
+  {servizi.length === 0 && <input type="hidden" name="servizio" value={servizio} />}
+
+  <div class="lead-form__row">
+    <label class="field">
+      <span class="field__label">NOME E COGNOME *</span>
+      <input name="nome" type="text" required autocomplete="name" aria-invalid="false" />
+      <span class="field__error" data-error-for="nome" role="alert" hidden></span>
+    </label>
+    <label class="field">
+      <span class="field__label">{aziendaLabel}</span>
+      <input name="azienda" type="text" autocomplete="organization" />
+    </label>
+    <label class="field">
+      <span class="field__label">TELEFONO *</span>
+      <input name="telefono" type="tel" required autocomplete="tel" aria-invalid="false" />
+      <span class="field__error" data-error-for="telefono" role="alert" hidden></span>
+    </label>
+    <label class="field">
+      <span class="field__label">EMAIL</span>
+      <input name="email" type="email" autocomplete="email" aria-invalid="false" />
+      <span class="field__error" data-error-for="email" role="alert" hidden></span>
+    </label>
+  </div>
+
+  {/* Honeypot: se compilato il server scarta la richiesta senza inviare nulla. */}
+  <div class="honeypot" aria-hidden="true">
+    <input name="website" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+
+  {(servizi.length > 0 || extra.length > 0) && (
+    <div class="lead-form__row">
+      {servizi.length > 0 && (
+        <label class="field">
+          <span class="field__label">SERVIZIO RICHIESTO</span>
+          <select name="servizio">
+            {servizi.map((s) => <option value={s} selected={s === servizio}>{s}</option>)}
+          </select>
+        </label>
+      )}
+      {extra.map((f) => (
+        <label class="field">
+          <span class="field__label">{f.label}</span>
+          {f.type === 'select'
+            ? <select name={f.name}>{f.options.map((o) => <option value={o} selected={f.value ? o === f.value : undefined}>{o}</option>)}</select>
+            : <input name={f.name} type={f.type || 'text'} placeholder={f.placeholder} />}
+        </label>
+      ))}
+    </div>
+  )}
+
+  <label class="field">
+    <span class="field__label">DESCRIVI BREVEMENTE IL PROGETTO</span>
+    <textarea name="progetto" rows="5"></textarea>
+  </label>
+
+  <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap">
+    <button class="lead-form__submit" type="submit">{submitLabel}</button>
+  </div>
+
+  <div class="lead-form__status" data-form-status role="status" aria-live="polite"></div>
+
+  <div class="form-fallback" data-form-fallback hidden>
+    <a class="btn--ghost-light" href={site.tel.href} style="font:600 14px var(--font-body);padding:13px 20px;border-radius:2px">Chiama {site.tel.display}</a>
+    <a href={waLink(waText)} target="_blank" rel="noopener" style="font:600 14px var(--font-body);color:var(--dark);background:var(--orange);padding:13px 20px;border-radius:2px">Scrivici su WhatsApp</a>
+  </div>
+
+  <p class="lead-form__privacy">
+    I dati inseriti saranno utilizzati esclusivamente per rispondere alla tua richiesta.
+    <a href="/privacy">Leggi l'Informativa Privacy</a>.
+  </p>
+</form>

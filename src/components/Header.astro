@@ -1,0 +1,23 @@
+---
+import Navigation from './Navigation.astro';
+import MobileMenu from './MobileMenu.astro';
+const { current, ctaHref = '/#contatti', ctaLabel = 'Richiedi un preventivo' } = Astro.props;
+---
+<header class="site-header" data-header>
+  <a class="brand" href="/">
+    <span class="brand__box">
+      <img class="brand__mark" src="/media/logo-matic.png" alt="MATIC" width="1254" height="1254" />
+    </span>
+    <span class="brand__name">MATIC<span class="brand__dot"></span></span>
+  </a>
+
+  <Navigation current={current} />
+
+  <a class="btn-header" href={ctaHref}>{ctaLabel}</a>
+
+  <button class="nav-toggle" data-nav-toggle type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="mobile-menu">
+    <span class="nav-toggle__bar"></span>
+  </button>
+</header>
+
+<MobileMenu current={current} ctaHref={ctaHref} ctaLabel={ctaLabel} />

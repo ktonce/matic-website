@@ -1,0 +1,269 @@
+---
+import '../styles/service.css';
+import Base from '../layouts/Base.astro';
+import LeadForm from '../components/LeadForm.astro';
+import { site, waLink } from '../data/site.js';
+import { servizi, stampaGrandeFormato as d } from '../data/services.js';
+---
+<Base path="/stampa-grande-formato" ctaHref="#preventivo" waText={d.waText} stickyCtaHref="#preventivo">
+
+  {/* ── HERO — nessuna foto reale di stampa: banda tipografica dei prodotti ── */}
+  <section id="top" class="auto-hero">
+    <div class="container">
+      <span class="eyebrow">{d.hero.eyebrow}</span>
+      <div class="auto-hero__grid">
+        <h1 class="svc-hero__h1">{d.hero.h1}</h1>
+        <div>
+          <p class="auto-hero__lead">{d.hero.lead}</p>
+          <div class="btn-row">
+            <a class="btn btn--primary" href="#preventivo">{d.hero.ctaLabel}</a>
+            <a class="btn btn--ghost-dark" href={d.hero.secondaryHref}>{d.hero.secondaryLabel}</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="kw-band">
+        {d.hero.keywords.map((k, i) => (
+          <span class={'kw-band__item' + (i % 2 ? ' kw-band__item--muted' : '')}>{k}</span>
+        ))}
+      </div>
+
+      <div class="stampa-hero__facts">
+        {d.hero.facts.map((f, i) => (
+          <>
+            {i > 0 && <span class="svc-hero__sep">·</span>}
+            <span class="svc-hero__fact">{f}</span>
+          </>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ── PRODOTTI ─────────────────────────────────────────────────────────── */}
+  <section id="prodotti" class="section section--light stampa-prodotti">
+    <div class="container">
+      <div class="split split--end">
+        <div>
+          <span class="eyebrow eyebrow--accent">{d.prodottiHead.eyebrow}</span>
+          <h2 class="svc-h2-mid">{d.prodottiHead.h2}</h2>
+        </div>
+        <p class="svc-muted">{d.prodottiHead.lead}</p>
+      </div>
+
+      <div class="prod-grid">
+        {d.prodotti.map((p) => (
+          <article class="prod-cell">
+            <span class="prod-cell__num">{p.num}</span>
+            <h3 class="prod-cell__title">{p.title}</h3>
+            <p class="prod-cell__desc">{p.desc}</p>
+          </article>
+        ))}
+      </div>
+
+      <p class="prod-nota">{d.prodottiNota}</p>
+    </div>
+  </section>
+
+  {/* ── SUPPORTI — PVC con formulazione prudente ─────────────────────────── */}
+  <section class="section section--light" style="padding-top:0">
+    <div class="container bordered-top materiali materiali--split">
+      <h2 class="auto-modalita__h2">{d.supporti.h2}</h2>
+      <p class="materiali__text">{d.supporti.text}</p>
+    </div>
+  </section>
+
+  {/* ── FILE — nessuna specifica tecnica: non confermata ─────────────────── */}
+  <section id="file" class="section--dark stampa-file">
+    <div class="container">
+      <div class="split split--file">
+        <h2 class="stampa-file__h2">{d.file.h2}</h2>
+        <div>
+          <p class="stampa-file__text">{d.file.text}</p>
+          {d.file.requirements.length > 0 && (
+            <ul class="file-req">
+              {d.file.requirements.map((fr) => (
+                <li><span class="file-req__label">{fr.label}</span><span class="file-req__value">{fr.value}</span></li>
+              ))}
+            </ul>
+          )}
+          <a class="svc-territorio__link" href="#preventivo">{d.file.link}</a>
+        </div>
+      </div>
+
+      <div class="container bordered-top-light split split--file stampa-file__second">
+        <h2 class="svc-h2-light">{d.file.noFileH2}</h2>
+        <p class="svc-territorio__text">{d.file.noFileText}</p>
+      </div>
+    </div>
+  </section>
+
+  {/* ── PROCESSO ─────────────────────────────────────────────────────────── */}
+  <section id="processo" class="section section--light">
+    <div class="container">
+      <h2 class="stampa-processo__h2">{d.processoH2}</h2>
+      <ol class="svc-steps auto-steps stampa-steps">
+        {d.steps.map((s) => (
+          <li class="svc-step stampa-step">
+            <span class="stampa-step__num">{s.num}</span>
+            <h3 class="stampa-step__title">{s.title}</h3>
+            <p class="stampa-step__desc">{s.desc}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  {/* ── WHATSAPP ─────────────────────────────────────────────────────────── */}
+  <section class="wa-band">
+    <div class="container wa-band__inner">
+      <div style="max-width:560px">
+        <h2 class="wa-band__h2">{d.whatsapp.h2}</h2>
+        <p class="wa-band__text">{d.whatsapp.text}</p>
+      </div>
+      <a class="wa-band__cta" href={waLink(d.waText)} target="_blank" rel="noopener">{d.whatsapp.cta}</a>
+    </div>
+  </section>
+
+  {/* ── CTA + FORM ───────────────────────────────────────────────────────── */}
+  <section id="preventivo" class="section section--light">
+    <div class="container">
+      <div class="form-head">
+        <h2 class="form-head__h2">{d.form.h2}</h2>
+        <p class="form-head__lead">{d.form.lead}</p>
+      </div>
+
+      <div id="form" class="svc-form-grid">
+        <div>
+          <LeadForm
+            formId="preventivo-stampa"
+            servizio="Stampa e grande formato"
+            servizi={servizi}
+            extra={d.form.extra}
+            aziendaLabel={d.form.aziendaLabel}
+            submitLabel={d.form.submitLabel}
+            waText={d.waText}
+          />
+        </div>
+
+        <aside class="contatti-aside">
+          <div class="aside__label">OPPURE SCRIVICI SUBITO</div>
+          <div class="aside__actions">
+            <a class="btn btn--primary" href={waLink(d.waText)} target="_blank" rel="noopener" style="text-align:center">Scrivici su WhatsApp</a>
+            <a class="btn btn--ghost-light" href={site.tel.href} style="text-align:center">Chiama lo {site.tel.display}</a>
+            <a class="btn" href={site.email.href} style="color:var(--offwhite);background:var(--dark);text-align:center">Scrivici una email</a>
+          </div>
+          <div class="aside__sede">
+            <div class="aside__label">LA NOSTRA SEDE</div>
+            <p class="aside__name">MATIC</p>
+            <p class="aside__addr">{site.address.street}<br />{site.address.zip} {site.address.city} ({site.address.province})</p>
+            <a class="aside__maps" href={site.maps} target="_blank" rel="noopener">Apri su Google Maps</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  {/* ── FAQ ──────────────────────────────────────────────────────────────── */}
+  <section id="faq" class="section section--light" style="padding-top:0">
+    <div class="container bordered-top split">
+      <div>
+        <span class="eyebrow eyebrow--accent">{d.faqHead.eyebrow}</span>
+        <h2 class="svc-h2-light svc-h2-light--dark">{d.faqHead.h2}</h2>
+      </div>
+      <div class="faq">
+        {d.faqs.map((f) => (
+          <details>
+            <summary>{f.q}<span class="faq__plus" aria-hidden="true">+</span></summary>
+            <p class="faq__answer">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/*
+    PORTFOLIO — non renderizzato: `lavori` è vuoto.
+    TODO FOTO: nessun lavoro di stampa fotografato negli asset.
+  */}
+
+  {/* ── TERRITORIO ───────────────────────────────────────────────────────── */}
+  <section id="territorio" class="section--dark svc-territorio">
+    <div class="container split split--file">
+      <h2 class="svc-h2-light">{d.territorio.h2}</h2>
+      <p class="svc-territorio__text">{d.territorio.text}</p>
+    </div>
+  </section>
+
+  {/* ── CROSS-SELL ───────────────────────────────────────────────────────── */}
+  <section class="section section--light">
+    <div class="container cross">
+      <div style="max-width:520px">
+        <h2 class="cross__h2">{d.cross.h2}</h2>
+        <p class="cross__text">{d.cross.text}</p>
+      </div>
+      <div class="cross__links">
+        {d.cross.links.map((l) => <a href={l.href}>{l.label}<span aria-hidden="true">→</span></a>)}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* Specifico di /stampa-grande-formato */
+  .kw-band {
+    margin-top: clamp(36px,5vw,64px); padding-top: clamp(28px,3.5vw,44px);
+    border-top: 1px solid var(--line-light);
+    display: flex; flex-wrap: wrap; gap: 14px clamp(20px,3vw,44px); align-items: baseline;
+  }
+  .kw-band__item { font: 500 clamp(22px,3.4vw,44px)/1.1 var(--font-display); color: var(--offwhite); letter-spacing: -.015em; }
+  .kw-band__item--muted { color: var(--orange); }
+  .stampa-hero__facts { display: flex; flex-wrap: wrap; gap: 9px 22px; align-items: center; margin-top: clamp(28px,3.5vw,40px); }
+
+  .stampa-prodotti { padding: clamp(56px,8vw,104px) var(--pad-x) clamp(48px,6vw,80px); }
+  .prod-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--line-dark); border: 1px solid var(--line-dark); }
+  @media (max-width: 1179px) { .prod-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 899px)  { .prod-grid { grid-template-columns: 1fr; } }
+  .prod-cell { background: var(--offwhite); padding: clamp(22px,2.6vw,32px); display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .prod-cell__num { font: 700 10.5px var(--font-mono); letter-spacing: .14em; color: var(--accent-text); }
+  .prod-cell__title { font: 500 clamp(19px,2vw,25px)/1.2 var(--font-display); color: var(--dark); margin: 0; letter-spacing: -.01em; }
+  .prod-cell__desc { font: 400 14.5px/1.65 var(--font-body); color: var(--grey-600); margin: 0; }
+  .prod-nota { font: 400 14px/1.65 var(--font-body); color: var(--grey-500); margin: 22px 0 0; max-width: 640px; }
+
+  .materiali--split { grid-template-columns: minmax(280px,.9fr) minmax(320px,1.1fr); }
+  @media (max-width: 899px) { .materiali--split { grid-template-columns: 1fr; } }
+
+  .stampa-file { padding: clamp(64px,9vw,116px) var(--pad-x); }
+  .split--file { grid-template-columns: minmax(280px,.9fr) minmax(320px,1.1fr); }
+  @media (max-width: 899px) { .split--file { grid-template-columns: 1fr; } }
+  .stampa-file__h2 { font: 500 clamp(28px,4vw,52px)/1.06 var(--font-display); color: var(--offwhite); margin: 0; letter-spacing: -.015em; }
+  .stampa-file__text { font: 400 clamp(16px,1.6vw,19px)/1.75 var(--font-body); color: var(--grey-400); margin: 0 0 24px; max-width: 620px; }
+  .stampa-file__second { margin-top: clamp(40px,5vw,64px); }
+  .file-req { list-style: none; margin: 0 0 24px; padding: 0; display: flex; flex-direction: column; gap: 12px; max-width: 620px; }
+  .file-req li { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: baseline; padding-bottom: 12px; border-bottom: 1px solid rgba(250,250,248,.14); }
+  .file-req__label { font: 600 11px var(--font-mono); letter-spacing: .1em; color: var(--orange); }
+  .file-req__value { font: 400 14.5px/1.6 var(--font-body); color: var(--grey-400); }
+
+  .stampa-processo__h2 { font: 500 clamp(26px,3.4vw,44px)/1.1 var(--font-display); color: var(--dark); margin: 0 0 clamp(32px,4vw,56px); letter-spacing: -.01em; max-width: 680px; }
+  .stampa-steps .stampa-step { border-left-color: var(--line-dark); }
+  @media (max-width: 899px) { .stampa-steps .stampa-step { border-top-color: var(--line-dark); } }
+  .stampa-step__num { display: block; font: 700 10.5px var(--font-mono); letter-spacing: .14em; color: var(--accent-text); margin-bottom: 14px; }
+  .stampa-step__title { font: 500 18px/1.25 var(--font-display); color: var(--dark); margin: 0 0 10px; }
+  .stampa-step__desc { font: 400 13.8px/1.6 var(--font-body); color: var(--grey-500); margin: 0; }
+
+  .wa-band { background: var(--orange); padding: clamp(40px,5.5vw,72px) var(--pad-x); }
+  .wa-band__inner { display: flex; flex-wrap: wrap; gap: 24px 48px; align-items: center; justify-content: space-between; }
+  .wa-band__h2 { font: 500 clamp(22px,2.8vw,36px)/1.15 var(--font-display); color: var(--dark); margin: 0; letter-spacing: -.01em; }
+  .wa-band__text { font: 400 15px/1.6 var(--font-body); color: rgba(26,29,35,.75); margin: 10px 0 0; }
+  .wa-band__cta { display: inline-flex; align-items: center; gap: 10px; font: 600 15px var(--font-body); color: var(--offwhite); background: var(--dark); padding: 18px 28px; border-radius: var(--radius); min-height: 44px; transition: transform .15s ease; }
+  .wa-band__cta:hover { transform: translateY(-2px); color: var(--offwhite); }
+
+  .auto-hero { background: var(--dark); padding: 132px var(--pad-x) 96px; }
+  @media (max-width: 899px) { .auto-hero { padding: 104px clamp(20px,5vw,40px) 56px; } }
+  .auto-hero__grid { display: grid; grid-template-columns: minmax(320px,1.15fr) minmax(280px,.85fr); gap: clamp(24px,4vw,72px); align-items: end; }
+  @media (max-width: 899px) { .auto-hero__grid { grid-template-columns: 1fr; } }
+  .auto-hero__lead { font: 400 var(--fs-lead)/1.7 var(--font-body); color: var(--grey-400); margin: 0 0 28px; max-width: 460px; }
+  .auto-modalita__h2 { font: 500 clamp(24px,3.2vw,42px)/1.1 var(--font-display); color: var(--dark); margin: 0; letter-spacing: -.01em; }
+  .auto-steps { grid-template-columns: repeat(4,1fr); }
+  @media (max-width: 1179px) { .auto-steps { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 899px)  { .auto-steps { grid-template-columns: 1fr; } }
+</style>

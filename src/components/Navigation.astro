@@ -1,0 +1,9 @@
+---
+import { mainNav } from '../data/navigation.js';
+const { current } = Astro.props;
+---
+<nav class="nav-desktop" aria-label="Navigazione principale">
+  {mainNav.map((item) => (
+    <a href={item.slug} aria-current={current === item.slug ? 'page' : undefined}>{item.short}</a>
+  ))}
+</nav>

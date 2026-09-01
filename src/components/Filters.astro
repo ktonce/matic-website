@@ -1,0 +1,8 @@
+---
+const { categories, label = 'Filtra i lavori per categoria' } = Astro.props;
+---
+<div class="filters" data-filters role="group" aria-label={label}>
+  {categories.map((c, i) => (
+    <button class="filter" data-filter={c} type="button" aria-pressed={i === 0 ? 'true' : 'false'}>{c}</button>
+  ))}
+</div>

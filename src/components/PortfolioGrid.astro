@@ -1,0 +1,37 @@
+---
+import { metaLine } from '../data/works.js';
+const { items, showLinks = true, headingLevel = 'h3' } = Astro.props;
+const Title = headingLevel;
+---
+{/* I lavori sono nell'HTML statico: indicizzabili e visibili anche senza JS.
+    Il filtro e la lightbox sono progressive enhancement.                     */}
+<div class="works">
+  {items.map((w, i) => (
+    <article
+      class="work"
+      data-work
+      data-cat={w.cat}
+      data-img={w.img}
+      data-alt={w.alt}
+      data-tag={w.tag}
+      data-title={w.title}
+    >
+      <button class="work__btn" data-work-open type="button" aria-label={'Apri ' + w.title}>
+        <span class="work__img-wrap" style={'aspect-ratio:' + w.ratio}>
+          <img
+            src={w.img}
+            alt={w.alt}
+            loading={i === 0 ? 'eager' : 'lazy'}
+            fetchpriority={i === 0 ? 'high' : undefined}
+            decoding="async"
+          />
+        </span>
+      </button>
+      <span class="work__tag">{w.tag}</span>
+      {metaLine(w) && <span class="work__meta">{metaLine(w)}</span>}
+      <Title class="work__title">{w.title}</Title>
+      <p class="work__desc">{w.desc}</p>
+      {showLinks && <a class="work__link" href={w.href}>{w.hrefLabel}</a>}
+    </article>
+  ))}
+</div>

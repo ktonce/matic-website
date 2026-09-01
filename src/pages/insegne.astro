@@ -1,0 +1,258 @@
+---
+import '../styles/service.css';
+import Base from '../layouts/Base.astro';
+import LeadForm from '../components/LeadForm.astro';
+import Lightbox from '../components/Lightbox.astro';
+import { site } from '../data/site.js';
+import { servizi, insegne as d } from '../data/services.js';
+import { pick } from '../data/testimonials.js';
+
+const testimonialList = pick(['Andrea F.', 'Lorella M.']);
+---
+<Base path="/insegne" ctaHref="#sopralluogo" ctaLabel="Richiedi un sopralluogo" waText={d.waText} stickyCtaHref="#sopralluogo">
+
+  {/* ── HERO ─────────────────────────────────────────────────────────────── */}
+  <section id="top" class="svc-hero">
+    <div class="svc-hero__text">
+      <span class="eyebrow">{d.hero.eyebrow}</span>
+      <h1 class="svc-hero__h1">{d.hero.h1}</h1>
+      <p class="svc-hero__lead">{d.hero.lead}</p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href="#sopralluogo">{d.hero.ctaLabel}</a>
+        <a class="btn btn--ghost-dark" href={d.hero.secondaryHref}>{d.hero.secondaryLabel}</a>
+      </div>
+
+      <div class="svc-hero__mobile-img">
+        <img src={d.hero.image} alt={d.hero.alt} loading="eager" fetchpriority="high" decoding="async" width="720" height="960" />
+      </div>
+
+      <div class="svc-hero__facts">
+        {d.hero.facts.map((f, i) => (
+          <>
+            {i > 0 && <span class="svc-hero__sep">·</span>}
+            <span class="svc-hero__fact">{f}</span>
+          </>
+        ))}
+      </div>
+    </div>
+
+    <div class="svc-hero__img">
+      <img src={d.hero.image} alt={d.hero.alt} loading="eager" fetchpriority="high" decoding="async" width="720" height="960" />
+      <span class="svc-hero__caption">{d.hero.imageCaption}</span>
+    </div>
+  </section>
+
+  {/* ── TIPOLOGIE ────────────────────────────────────────────────────────── */}
+  <section id="tipologie" class="section section--light tipologie">
+    <div class="container">
+      <div class="split split--end">
+        <div>
+          <span class="eyebrow eyebrow--accent">{d.tipologieHead.eyebrow}</span>
+          <h2 class="svc-h2-mid">{d.tipologieHead.h2}</h2>
+        </div>
+        <p class="svc-muted">{d.tipologieHead.lead}</p>
+      </div>
+
+      {d.tipologie.map((t, i) => (
+        <article class={'tipo-row' + (i % 2 ? ' tipo-row--alt' : '')}>
+          <div class="tipo-row__img" style={'aspect-ratio:' + (i % 2 ? '4 / 3' : '16 / 10')}>
+            <img src={t.image} alt={t.alt} loading="lazy" decoding="async" />
+          </div>
+          <div class="tipo-row__text">
+            <span class="tipo-row__num">{t.num}</span>
+            <h3 class="tipo-row__title">{t.title}</h3>
+            <p class="tipo-row__desc">{t.desc}</p>
+          </div>
+        </article>
+      ))}
+
+      <div class="altre">
+        <span class="altre__label">REALIZZIAMO INOLTRE</span>
+        <div class="altre__grid">
+          {d.altreTipologie.map((a) => (
+            <div class="altre__item">
+              <h3 class="altre__title">{a.title}</h3>
+              <p class="altre__desc">{a.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ── PORTFOLIO — solo fotografie reali di insegne ──────────────────────── */}
+  <section id="lavori" class="section section--light">
+    <div class="container bordered-top">
+      <div class="split split--end">
+        <div>
+          <span class="eyebrow eyebrow--accent">{d.portfolioHead.eyebrow}</span>
+          <h2 class="svc-h2-mid">{d.portfolioHead.h2}</h2>
+        </div>
+        <a class="works__all" href="/lavori">{d.portfolioHead.link}</a>
+      </div>
+
+      <div class="ins-works">
+        {d.works.map((w, i) => (
+          <article
+            class="ins-work"
+            data-work data-cat="Insegne"
+            data-img={w.img} data-alt={w.alt} data-tag={w.tag} data-title={w.title}
+          >
+            <button class="work__btn" data-work-open type="button" aria-label={'Ingrandisci: ' + w.title}>
+              <span class="ins-work__img" style={'aspect-ratio:' + w.ratio}>
+                <img src={w.img} alt={w.alt} loading="lazy" decoding="async" />
+              </span>
+            </button>
+            <div class="ins-work__body">
+              <span class="ins-work__tag">{w.tag}</span>
+              <h3 class="ins-work__title">{w.title}</h3>
+              {[w.settore, w.localita].filter(Boolean).length > 0 && (
+                <span class="ins-work__meta">{[w.settore, w.localita].filter(Boolean).join(' · ').toUpperCase()}</span>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ── PERCHÉ MATIC ─────────────────────────────────────────────────────── */}
+  <section id="perche" class="section--dark svc-perche">
+    <div class="container">
+      <span class="eyebrow">{d.percheHead.eyebrow}</span>
+      <h2 class="svc-h2-dark">{d.percheHead.h2}</h2>
+      <div class="svc-perks">
+        {d.perks.map((p) => (
+          <div class="svc-perk">
+            <span class="svc-perk__num">{p.num}</span>
+            <h3 class="svc-perk__title">{p.title}</h3>
+            <p class="svc-perk__desc">{p.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ── PROCESSO — 5 step, assistenza inclusa ────────────────────────────── */}
+  <section id="processo" class="section--dark svc-processo">
+    <div class="container bordered-top-light">
+      <h2 class="svc-h2-light">{d.processoH2}</h2>
+      <ol class="svc-steps">
+        {d.steps.map((s) => (
+          <li class="svc-step">
+            <span class="svc-step__num">{s.num}</span>
+            <h3 class="svc-step__title">{s.title}</h3>
+            <p class="svc-step__desc">{s.desc}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  {/* ── MATERIALI ────────────────────────────────────────────────────────── */}
+  <section id="materiali" class="section section--light">
+    <div class="container materiali">
+      <h2 class="materiali__h2">{d.materiali.h2}</h2>
+      <p class="materiali__text">{d.materiali.text}</p>
+    </div>
+  </section>
+
+  {/* ── NON SOLO INSEGNA ─────────────────────────────────────────────────── */}
+  <section class="section section--light" style="padding-top:0">
+    <div class="container bordered-top cross">
+      <div style="max-width:520px">
+        <h2 class="cross__h2">{d.cross.h2}</h2>
+        <p class="cross__text">{d.cross.text}</p>
+      </div>
+      <div class="cross__links">
+        {d.cross.links.map((l) => (
+          <a href={l.href}>{l.label}<span aria-hidden="true">→</span></a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ── DICONO DI NOI — recensioni reali, testi non riscritti ─────────────── */}
+  <section id="dicono" class="section section--light">
+    <div class="container">
+      <span class="eyebrow eyebrow--accent eyebrow--gap">DICONO DI NOI</span>
+      <div class="svc-testimonials">
+        {testimonialList.map((t) => (
+          <figure class="testimonial">
+            <blockquote>{t.text}</blockquote>
+            <figcaption>{t.name} · {t.role}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ── DOVE LAVORIAMO ───────────────────────────────────────────────────── */}
+  <section id="territorio" class="section--dark svc-territorio">
+    <div class="container split">
+      <h2 class="svc-h2-light">{d.territorio.h2}</h2>
+      <div>
+        <p class="svc-territorio__text">{d.territorio.text}</p>
+        <a class="svc-territorio__link" href={site.maps} target="_blank" rel="noopener">{d.territorio.link}</a>
+      </div>
+    </div>
+  </section>
+
+  {/* ── FAQ ──────────────────────────────────────────────────────────────── */}
+  <section id="faq" class="section section--light">
+    <div class="container split">
+      <div>
+        <span class="eyebrow eyebrow--accent">{d.faqHead.eyebrow}</span>
+        <h2 class="svc-h2-light svc-h2-light--dark">{d.faqHead.h2}</h2>
+      </div>
+      <div class="faq">
+        {d.faqs.map((f) => (
+          <details>
+            <summary>{f.q}<span class="faq__plus" aria-hidden="true">+</span></summary>
+            <p class="faq__answer">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ── CTA + FORM ───────────────────────────────────────────────────────── */}
+  <section id="sopralluogo" class="section section--light" style="padding-top:0">
+    <div class="container bordered-top">
+      <div class="form-head">
+        <h2 class="form-head__h2">{d.form.h2}</h2>
+        <p class="form-head__lead">{d.form.lead}</p>
+        <div class="btn-row">
+          <a class="btn btn--primary" href="#form">{d.form.ctaPrimary}</a>
+          <a class="btn btn--ghost-light" href={site.whatsapp.href} target="_blank" rel="noopener">Scrivici su WhatsApp</a>
+        </div>
+      </div>
+
+      <div id="form" class="svc-form-grid">
+        <div>
+          <LeadForm
+            formId="sopralluogo-insegne"
+            servizio="Insegne"
+            servizi={servizi}
+            extra={d.form.extra}
+            aziendaLabel={d.form.aziendaLabel}
+            submitLabel={d.form.submitLabel}
+            waText={d.waText}
+          />
+        </div>
+
+        <aside class="contatti-aside">
+          <div class="aside__label">OPPURE SCRIVICI SUBITO</div>
+          <div class="aside__actions">
+            <a class="btn" href={site.email.href} style="color:var(--offwhite);background:var(--dark);text-align:center">Scrivici una email</a>
+            <a class="btn btn--ghost-light" href={site.tel.href} style="text-align:center">Chiama lo {site.tel.display}</a>
+            <a class="btn btn--primary" href={site.whatsapp.href} target="_blank" rel="noopener" style="text-align:center">Scrivici su WhatsApp</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <Lightbox slot="after" />
+</Base>
+

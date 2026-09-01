@@ -1,0 +1,11 @@
+---
+import { site, waLink } from '../data/site.js';
+const { waText = '', ctaHref = '/#contatti' } = Astro.props;
+---
+{/* Barra contatti: visibile solo sotto 900px (media query in components.css). */}
+<div class="sticky-bar__spacer"></div>
+<div class="sticky-bar">
+  <a href={site.tel.href}>Chiama</a>
+  <a href={waLink(waText)} target="_blank" rel="noopener">WhatsApp</a>
+  <a href={ctaHref}>Preventivo</a>
+</div>

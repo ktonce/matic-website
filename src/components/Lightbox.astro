@@ -1,0 +1,19 @@
+---
+// Un solo markup per pagina: lightbox.js lo popola dai data-* delle card.
+---
+<div class="lightbox" data-lightbox hidden role="dialog" aria-modal="true" aria-label="Lavoro">
+  <div class="lightbox__top">
+    <button class="lightbox__btn" data-lightbox-close type="button" aria-label="Chiudi">×</button>
+  </div>
+  <div class="lightbox__body">
+    <img data-lightbox-img src="" alt="" />
+    <div style="text-align:center">
+      <span class="lightbox__tag" data-lightbox-tag></span>
+      <p class="lightbox__title" data-lightbox-title></p>
+    </div>
+    <div class="lightbox__nav">
+      <button class="lightbox__btn" data-lightbox-prev type="button" aria-label="Lavoro precedente">←</button>
+      <button class="lightbox__btn" data-lightbox-next type="button" aria-label="Lavoro successivo">→</button>
+    </div>
+  </div>
+</div>

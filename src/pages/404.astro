@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import { services } from '../data/navigation.js';
+---
+<Base path="/404">
+  <section class="legal-hero" style="background:var(--dark);padding:148px var(--pad-x) 96px">
+    <div class="container">
+      <span class="eyebrow">PAGINA NON TROVATA</span>
+      <h1 style="font:500 clamp(30px,4.2vw,56px)/1.05 var(--font-display);color:var(--offwhite);margin:0;letter-spacing:-.015em">Questa pagina non esiste.</h1>
+      <p style="font:400 var(--fs-lead)/1.7 var(--font-body);color:var(--grey-400);max-width:520px;margin:26px 0 34px">Puoi tornare alla home o andare direttamente a uno dei nostri servizi.</p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href="/">Torna alla home</a>
+        <a class="btn btn--ghost-dark" href="/lavori">Guarda i lavori</a>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:40px;padding-top:22px;border-top:1px solid var(--line-light)">
+        {services.map((s) => <a href={s.slug} style="font:500 13.5px var(--font-body);color:var(--grey-400)">{s.label}</a>)}
+      </div>
+    </div>
+  </section>
+</Base>

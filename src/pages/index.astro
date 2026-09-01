@@ -1,0 +1,459 @@
+---
+import Base from '../layouts/Base.astro';
+import LeadForm from '../components/LeadForm.astro';
+import PortfolioGrid from '../components/PortfolioGrid.astro';
+import Lightbox from '../components/Lightbox.astro';
+import Testimonial from '../components/Testimonial.astro';
+import { site } from '../data/site.js';
+import { works } from '../data/works.js';
+import { testimonials } from '../data/testimonials.js';
+import { heroCopy, prodCats, perks, digitalServices, processSteps, cases, chiSiamo, servizi } from '../data/home.js';
+import LogoRail from '../components/LogoRail.astro';
+---
+<Base path="/" ctaHref="#contatti" stickyCtaHref="#contatti">
+
+  {/* ── HERO ─────────────────────────────────────────────────────────────── */}
+  <section id="top" class="home-hero">
+    <div>
+      <span class="eyebrow">{heroCopy.eyebrow}</span>
+      <h1 class="home-hero__h1">{heroCopy.h1}</h1>
+      <p class="home-hero__claim">{heroCopy.claim}</p>
+      <p class="home-hero__lead">{heroCopy.lead}</p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href="#contatti">Richiedi un preventivo</a>
+        <a class="btn btn--ghost-dark" href="#portfolio">Guarda i nostri lavori</a>
+      </div>
+
+      <div class="home-hero__mobile-img">
+        <img src="/media/portfolio-cm.jpg" alt="Insegna luminosa progettata, prodotta e installata da Matic"
+             loading="eager" fetchpriority="high" decoding="async" width="720" height="960" />
+      </div>
+
+      <div class="home-hero__facts">
+        {heroCopy.facts.map((f, i) => (
+          <>
+            {i > 0 && <span class="home-hero__sep">·</span>}
+            <span class="home-hero__fact">{f}</span>
+          </>
+        ))}
+      </div>
+      <p class="home-hero__note">{heroCopy.note}</p>
+    </div>
+
+    <div class="home-hero__collage" aria-hidden="true">
+      <div class="home-hero__c1"><img src="/media/portfolio-cm.jpg" alt="" loading="eager" fetchpriority="high" decoding="async" /></div>
+      <div class="home-hero__c2"><img src="/media/portfolio-volvo.jpg" alt="" loading="lazy" decoding="async" /></div>
+      <div class="home-hero__c3"><img src="/media/chi-siamo.jpg" alt="" loading="lazy" decoding="async" /></div>
+    </div>
+  </section>
+
+  {/* ── COSA REALIZZIAMO — ogni riga linka la pagina servizio ────────────── */}
+  <section id="servizi" class="section section--light">
+    <div class="container">
+      <div class="split split--end">
+        <div>
+          <span class="eyebrow eyebrow--tight">COSA REALIZZIAMO</span>
+          <h2 class="h2-big">Dalla progettazione<br />al montaggio.</h2>
+        </div>
+        <p class="lead-muted">Realizziamo internamente tutto ciò che serve per rendere visibile e riconoscibile la tua attività, seguendo il progetto dalla prima idea fino all'installazione.</p>
+      </div>
+
+      {prodCats.map((c, i) => (
+        <a class={'prod-row' + (i % 2 ? ' prod-row--alt' : '')} href={c.href}>
+          <span class="prod-row__img" style={'aspect-ratio:' + (i % 2 ? '4 / 3' : '16 / 10')}>
+            <img src={c.image} alt={c.title} loading="lazy" decoding="async" />
+          </span>
+          <span class="prod-row__text">
+            <span class="prod-row__num">{c.num}</span>
+            <span class="prod-row__title">{c.title}</span>
+            <span class="prod-row__desc">{c.desc}</span>
+            <span class="prod-row__cta">{c.cta}</span>
+          </span>
+        </a>
+      ))}
+
+      <div class="prod-foot">
+        <p>Veniamo a vedere lo spazio, poi ti diciamo cosa si può fare.</p>
+        <a class="btn btn--primary" href="#contatti">Richiedi un sopralluogo gratuito</a>
+      </div>
+    </div>
+  </section>
+
+  {/* ── PORTFOLIO ────────────────────────────────────────────────────────── */}
+  <section id="portfolio" class="section section--light">
+    <div class="container">
+      <div class="split split--end">
+        <div>
+          <span class="eyebrow eyebrow--tight">LAVORI REALIZZATI</span>
+          <h2 class="h2-big">Il nostro lavoro si vede.</h2>
+        </div>
+        <p class="lead-muted">Insegne, allestimenti, vetrofanie e decorazioni realizzate per aziende, negozi e professionisti.</p>
+      </div>
+      <PortfolioGrid items={works} showLinks={true} />
+      <p style="margin:clamp(28px,4vw,40px) 0 0"><a class="work__link" href="/lavori">Vedi tutti i lavori</a></p>
+    </div>
+  </section>
+
+  {/* ── CLIENTI — blocco corporate, nessuna attribuzione di servizio ─────── */}
+  <section id="clienti" class="section section--light">
+    <div class="container bordered-top">
+      <div class="split split--baseline">
+        <span class="eyebrow eyebrow--tight">HANNO LAVORATO CON MATIC</span>
+        <p class="lead-muted lead-muted--wide">Da oltre vent'anni realizziamo progetti per aziende, attività commerciali, enti e realtà di settori diversi.</p>
+      </div>
+      <LogoRail />
+    </div>
+  </section>
+
+  {/* ── TESTIMONIAL — griglia statica, nessun autoplay ───────────────────── */}
+  <section id="testimonial" class="section section--light">
+    <div class="container bordered-top">
+      <div style="margin-bottom:clamp(36px,5vw,60px)">
+        <span class="eyebrow">COSA DICONO I CLIENTI</span>
+        <h2 class="h2-mid">Lavori concreti.<br />Rapporti che durano.</h2>
+      </div>
+      <div class="testimonial-track">
+        {testimonials.map((t) => (
+          <div class="testimonial-cell"><Testimonial name={t.name} role={t.role} text={t.text} /></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ── CTA INTERMEDIA ───────────────────────────────────────────────────── */}
+  <section class="section section--light" style="padding-top:0">
+    <div class="container bordered-top cta-mid">
+      <div style="max-width:560px">
+        <h2 class="h2-small">Hai un progetto da realizzare?</h2>
+        <p class="cta-mid__lead">Raccontaci cosa ti serve. Ti aiutiamo a scegliere materiali, soluzione e modalità di realizzazione.</p>
+      </div>
+      <div class="btn-row">
+        <a class="btn btn--primary" href="#contatti">Richiedi un preventivo</a>
+        <a class="btn btn--ghost-light" href={site.whatsapp.href} target="_blank" rel="noopener">Scrivici su WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  {/* ── PERCHÉ MATIC ─────────────────────────────────────────────────────── */}
+  <section id="perche" class="section section--dark perche">
+    <div class="container">
+      <span class="eyebrow eyebrow--tight">PERCHÉ MATIC</span>
+      <h2 class="h2-dark">Un unico partner,<br />dal progetto all'installazione.</h2>
+      <div class="perks">
+        {perks.map((k) => (
+          <div class="perk">
+            <div class="perk__big">{k.big}</div>
+            <div class="perk__kicker">{k.kicker}</div>
+            <h3 class="perk__title">{k.title}</h3>
+            <p class="perk__desc">{k.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ── MATIC DIGITAL — solo il rimando presente in homepage.
+         La pagina /digital NON esiste e non va creata. ──────────────────── */}
+  <section id="digital" class="section--dark digital">
+    <div class="container digital__grid">
+      <div>
+        <span class="eyebrow eyebrow--tight">NOVITÀ · MATIC DIGITAL</span>
+        <h2 class="digital__h2">La tua attività, riconoscibile anche online.</h2>
+        <p class="digital__lead">Portiamo sul web la stessa identità costruita negli spazi fisici, aiutando aziende e attività locali a farsi trovare, presentarsi meglio e generare nuovi contatti.</p>
+        <a class="digital__cta" href="#contatti">Parlaci del tuo progetto digitale</a>
+      </div>
+      <div class="digital__list">
+        {digitalServices.map((sv) => <div class="digital__item">{sv}</div>)}
+      </div>
+    </div>
+  </section>
+
+  {/* ── CASI STUDIO ──────────────────────────────────────────────────────── */}
+  <section id="casi" class="section--dark casi">
+    <div class="container casi__head">
+      <span class="eyebrow eyebrow--tight">CASI STUDIO</span>
+      <h2 class="h2-dark h2-dark--tight">Come lavoriamo,<br />su progetti reali.</h2>
+    </div>
+
+    {cases.map((c, i) => (
+      <div class={'container case' + (i > 0 ? ' case--sep' : '')}>
+        <div class={'case__img' + (c.imageFirst ? '' : ' case__img--last')}>
+          <img src={c.image} alt={c.alt} loading="lazy" decoding="async" />
+        </div>
+        <div class="case__text">
+          <span class="eyebrow eyebrow--tight">{c.eyebrow}</span>
+          <h3 class="case__title">{c.title[0]}<br />{c.title[1]}</h3>
+          <div class="case__meta">
+            <div>
+              <span class="case__label">ESIGENZA</span>
+              <p class="case__val">{c.esigenza}</p>
+            </div>
+            <div>
+              <span class="case__label">SOLUZIONE MATIC</span>
+              <p class="case__val">{c.soluzione}</p>
+            </div>
+            <div style="grid-column:1/-1">
+              <span class="case__label">LAVORAZIONI</span>
+              <p class="case__val case__val--muted">{c.lavorazioni}</p>
+            </div>
+          </div>
+          <div class="case__result">
+            <span class="case__label case__label--accent">RISULTATO</span>
+            <p class="case__risultato">{c.risultato}</p>
+          </div>
+        </div>
+      </div>
+    ))}
+  </section>
+
+  {/* ── PROCESSO ─────────────────────────────────────────────────────────── */}
+  <section class="section--dark processo">
+    <div class="container">
+      <div class="processo__head">
+        <span class="eyebrow eyebrow--tight">IL PROCESSO</span>
+        <h2 class="processo__h2">Come lavoriamo</h2>
+        <p class="processo__lead">Seguiamo ogni progetto dall'idea alla realizzazione, coordinando competenze creative, tecniche e produttive.</p>
+      </div>
+      <ol class="timeline">
+        {processSteps.map((s) => (
+          <li class="timeline__step">
+            <span class="timeline__num">{s.num}</span>
+            <h3 class="timeline__title">{s.title}</h3>
+            <p class="timeline__desc">{s.desc}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  {/* ── CHI SIAMO ────────────────────────────────────────────────────────── */}
+  <section id="chi-siamo" class="section section--light chi">
+    <div class="container chi__grid">
+      <div class="chi__img">
+        <img src={chiSiamo.image} alt={chiSiamo.alt} loading="lazy" decoding="async" width="1600" height="1200" />
+      </div>
+      <div>
+        <h2 class="chi__h2">{chiSiamo.h2[0]}<br />{chiSiamo.h2[1]}<br />{chiSiamo.h2[2]}</h2>
+        <p class="chi__text">{chiSiamo.text}</p>
+        <div class="chi__bullets">
+          {chiSiamo.bullets.map((b) => (
+            <div class="chi__bullet"><span class="chi__dot" aria-hidden="true"></span><span>{b}</span></div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ── CONTATTI + FORM ──────────────────────────────────────────────────── */}
+  <section id="contatti" class="section section--light" style="text-align:center">
+    <h2 class="h2-huge">Raccontaci cosa vuoi realizzare.</h2>
+    <p class="contatti-lead">Scrivici due informazioni sul progetto.</p>
+
+    <div class="contatti-grid">
+      <div>
+        <LeadForm formId="preventivo" servizio="Insegne e vetrofanie" servizi={servizi} />
+      </div>
+
+      <aside class="contatti-aside">
+        <div class="aside__label">OPPURE SCRIVICI SUBITO</div>
+        <div class="aside__actions">
+          <a class="btn" href={site.email.href} style="color:var(--offwhite);background:var(--dark);text-align:center">Scrivici una email</a>
+          <a class="btn btn--ghost-light" href={site.tel.href} style="text-align:center">Chiama lo {site.tel.display}</a>
+          <a class="btn btn--primary" href={site.whatsapp.href} target="_blank" rel="noopener" style="text-align:center">Scrivici su WhatsApp</a>
+        </div>
+
+        <div class="aside__sede">
+          <div class="aside__label">LA NOSTRA SEDE</div>
+          <div class="aside__sede-img">
+            <picture>
+              <source type="image/webp" srcset="/media/sede-matic-500.webp 500w, /media/sede-matic-800.webp 800w, /media/sede-matic-1200.webp 1200w" sizes="(max-width: 899px) 92vw, 420px" />
+              <img src="/media/sede-matic-800.jpg" srcset="/media/sede-matic-500.jpg 500w, /media/sede-matic-800.jpg 800w, /media/sede-matic-1200.jpg 1200w" sizes="(max-width: 899px) 92vw, 420px" alt="La sede MATIC a Fucecchio, con l'insegna sulla facciata dell'edificio" loading="lazy" decoding="async" width="800" height="600" />
+            </picture>
+          </div>
+          <p class="aside__name">MATIC</p>
+          <p class="aside__addr">{site.address.street}<br />{site.address.zip} {site.address.city} ({site.address.province})</p>
+          <a class="aside__maps" href={site.maps} target="_blank" rel="noopener">Apri su Google Maps</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <Lightbox slot="after" />
+</Base>
+
+<style>
+  /* Homepage. Le colonne che nel prototipo erano calcolate in JS (isNarrow)
+     sono qui media query: 900px per il layout, 1180px per le griglie a 3-4 col. */
+
+  .home-hero {
+    background: var(--dark); min-height: 100vh; display: grid;
+    grid-template-columns: minmax(320px,1.05fr) minmax(280px,.95fr);
+    align-items: center; padding: 88px var(--pad-x) 48px;
+  }
+  .home-hero__h1 { font: 500 var(--fs-h1-home)/1 var(--font-display); color: var(--offwhite); margin: 0; letter-spacing: -.015em; }
+  .home-hero__claim { font: 400 clamp(19px,2.1vw,30px)/1.25 var(--font-display); color: var(--orange); margin: 16px 0 0; max-width: 600px; }
+  .home-hero__lead { font: 400 clamp(15px,1.4vw,17px)/1.65 var(--font-body); color: var(--grey-400); max-width: 520px; margin: 26px 0 36px; }
+  .home-hero__mobile-img { display: none; margin: 40px 0 0; aspect-ratio: 4 / 3; overflow: hidden; }
+  .home-hero__mobile-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .home-hero__facts { display: flex; flex-wrap: wrap; gap: 10px 26px; align-items: center; margin-top: 44px; padding-top: 22px; border-top: 1px solid rgba(250,250,248,.12); }
+  .home-hero__fact { font: 500 13px var(--font-display); color: var(--offwhite); }
+  .home-hero__sep { font: 400 13px var(--font-body); color: var(--grey-600); }
+  .home-hero__note { font: 400 12.5px/1.5 var(--font-body); color: var(--grey-500); margin: 14px 0 0; }
+  .home-hero__collage { position: relative; height: 600px; justify-self: end; width: 100%; max-width: 460px; }
+  .home-hero__collage img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .home-hero__c1 { position: absolute; top: 0; right: 0; width: 84%; height: 400px; overflow: hidden; }
+  .home-hero__c2 { position: absolute; bottom: 78px; left: 0; width: 54%; height: 236px; overflow: hidden; border: 4px solid var(--dark); box-shadow: 0 20px 40px rgba(0,0,0,.35); }
+  .home-hero__c3 { position: absolute; bottom: 0; right: 6%; width: 40%; height: 150px; overflow: hidden; border: 4px solid var(--dark); }
+  @media (max-width: 899px) {
+    .home-hero { grid-template-columns: 1fr; min-height: auto; }
+    .home-hero__collage { display: none; }
+    .home-hero__mobile-img { display: block; }
+  }
+
+  /* Titoli */
+  .h2-big   { font: 500 var(--fs-h2)/1.05 var(--font-display); color: var(--dark); margin: 18px 0 0; letter-spacing: -.015em; }
+  .h2-mid   { font: 500 clamp(28px,3.6vw,50px)/1.08 var(--font-display); color: var(--dark); margin: 0; letter-spacing: -.015em; }
+  .h2-small { font: 500 clamp(22px,2.6vw,34px)/1.2 var(--font-display); color: var(--dark); margin: 0; letter-spacing: -.01em; }
+  .h2-huge  { font: 500 clamp(40px,6.5vw,84px)/1.02 var(--font-display); color: var(--dark); margin: 0 0 22px; letter-spacing: -.01em; }
+  .h2-dark  { font: 500 clamp(32px,4.6vw,64px)/1.06 var(--font-display); color: var(--offwhite); margin: 20px 0 clamp(48px,7vw,88px); letter-spacing: -.015em; max-width: 900px; }
+  .h2-dark--tight { margin: 18px 0 0; }
+  .eyebrow--tight { margin-bottom: 0; }
+  .lead-muted { font: 400 16px/1.7 var(--font-body); color: var(--grey-600); margin: 0; max-width: 460px; }
+  .lead-muted--wide { max-width: 640px; }
+  .split--end { align-items: end; margin-bottom: clamp(32px,5vw,56px); }
+  .split--baseline { align-items: baseline; margin-bottom: clamp(36px,5vw,64px); }
+  .bordered-top { padding-top: clamp(32px,4vw,48px); border-top: 1px solid var(--line-dark); }
+
+  /* Righe servizio: link a blocco intero, un solo elemento interattivo */
+  .prod-row {
+    display: grid; color: inherit; text-decoration: none;
+    grid-template-columns: minmax(300px,1fr) minmax(280px,1.05fr);
+    gap: clamp(24px,4vw,56px); align-items: center;
+    padding: clamp(32px,4.5vw,56px) 0; border-top: 1px solid var(--line-dark);
+  }
+  .prod-row--alt { grid-template-columns: minmax(280px,1.05fr) minmax(300px,1fr); }
+  .prod-row__img { overflow: hidden; order: 1; }
+  .prod-row--alt .prod-row__img { order: 2; }
+  .prod-row__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .prod-row__text { order: 2; max-width: 520px; display: block; }
+  .prod-row--alt .prod-row__text { order: 1; }
+  .prod-row__num { display: block; font: 700 12px var(--font-mono); letter-spacing: .12em; color: var(--orange); }
+  .prod-row__title { display: block; font: 500 var(--fs-h3)/1.1 var(--font-display); color: var(--dark); margin: 12px 0 14px; letter-spacing: -.01em; }
+  .prod-row__desc { display: block; font: 400 var(--fs-body)/1.65 var(--font-body); color: var(--grey-500); }
+  .prod-row__cta { display: inline-block; margin-top: 18px; font: 600 13.5px var(--font-body); color: var(--dark); border-bottom: 1px solid var(--orange); padding-bottom: 3px; }
+  @media (max-width: 899px) {
+    .prod-row, .prod-row--alt { grid-template-columns: 1fr; }
+    .prod-row__img, .prod-row--alt .prod-row__img { order: 1; }
+    .prod-row__text, .prod-row--alt .prod-row__text { order: 2; }
+  }
+  .prod-foot { border-top: 1px solid var(--line-dark); padding-top: clamp(32px,5vw,52px); display: flex; flex-wrap: wrap; gap: 20px 40px; align-items: center; justify-content: space-between; }
+  .prod-foot p { font: 500 clamp(19px,2.2vw,28px)/1.3 var(--font-display); color: var(--dark); margin: 0; max-width: 520px; }
+
+  /* Clienti: la fascia loghi vive in LogoRail.astro */
+
+  /* Testimonial: griglia su desktop, scroll orizzontale manuale su mobile.
+     Nessun autoplay, nessun carosello JS. */
+  .testimonial-track { display: grid; grid-template-columns: repeat(3,1fr); gap: clamp(24px,3vw,56px); align-items: stretch; }
+  @media (max-width: 1179px) { .testimonial-track { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 899px) {
+    .testimonial-track {
+      display: flex; gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch; padding-bottom: 4px;
+    }
+    .testimonial-cell { flex: 0 0 82%; scroll-snap-align: start; }
+  }
+
+  /* CTA intermedia */
+  .cta-mid { display: flex; flex-wrap: wrap; gap: 24px 48px; align-items: center; justify-content: space-between; }
+  .cta-mid__lead { font: 400 15px/1.6 var(--font-body); color: var(--grey-500); margin: 10px 0 0; }
+
+  /* Perché MATIC */
+  .perche { padding: clamp(64px,9vw,124px) var(--pad-x); }
+  .perks { display: grid; grid-template-columns: repeat(4,1fr); gap: 0 clamp(28px,4vw,64px); }
+  @media (max-width: 1179px) { .perks { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 899px)  { .perks { grid-template-columns: 1fr; } }
+  .perk { border-top: 1px solid var(--line-light); padding: 26px 0 clamp(30px,4vw,44px); }
+  .perk__big { font: 500 clamp(24px,2.7vw,38px)/1.05 var(--font-display); color: var(--orange); letter-spacing: -.015em; }
+  .perk__kicker { font: 400 clamp(13px,1.1vw,15px) var(--font-mono); letter-spacing: .1em; color: var(--grey-400); margin-top: 6px; }
+  .perk__title { font: 500 17px/1.35 var(--font-display); color: var(--offwhite); margin: 18px 0 8px; }
+  .perk__desc { font: 400 14px/1.65 var(--font-body); color: var(--grey-400); margin: 0; max-width: 280px; }
+
+  /* MATIC DIGITAL — rimando */
+  .digital { padding: clamp(44px,6vw,76px) var(--pad-x); }
+  .digital__grid { display: grid; grid-template-columns: minmax(320px,1.1fr) minmax(260px,.9fr); gap: clamp(28px,4vw,64px); align-items: start; }
+  @media (max-width: 899px) { .digital__grid { grid-template-columns: 1fr; } }
+  .digital__h2 { font: 500 clamp(26px,3.2vw,40px)/1.15 var(--font-display); color: var(--offwhite); margin: 16px 0 14px; letter-spacing: -.01em; }
+  .digital__lead { font: 400 15.5px/1.65 var(--font-body); color: var(--grey-400); margin: 0; max-width: 520px; }
+  .digital__cta {
+    display: inline-block; margin-top: 26px; font: 600 14px var(--font-body);
+    color: var(--offwhite); border: 1px solid rgba(250,250,248,.35);
+    padding: 14px 26px; border-radius: var(--radius);
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .digital__cta:hover { border-color: var(--orange); background: rgba(255,107,53,.1); color: var(--offwhite); }
+  .digital__list { display: grid; grid-template-columns: 1fr 1fr; gap: 0 clamp(20px,3vw,40px); }
+  @media (max-width: 899px) { .digital__list { grid-template-columns: 1fr; } }
+  .digital__item { padding: 13px 0; border-top: 1px solid rgba(250,250,248,.14); font: 500 14.5px var(--font-display); color: var(--offwhite); }
+
+  /* Casi studio */
+  .casi { padding: clamp(60px,9vw,116px) var(--pad-x) clamp(60px,9vw,116px); }
+  .casi__head { margin-bottom: clamp(40px,5vw,64px); }
+  .case { display: grid; grid-template-columns: minmax(280px,.85fr) minmax(320px,1.15fr); gap: clamp(28px,4.5vw,72px); align-items: stretch; }
+  .case--sep { margin-top: clamp(36px,5vw,64px); padding-top: clamp(36px,5vw,64px); border-top: 1px solid rgba(250,250,248,.14); grid-template-columns: minmax(320px,1.15fr) minmax(280px,.85fr); }
+  .case__img { align-self: start; width: 100%; min-width: 0; aspect-ratio: 3 / 4; overflow: hidden; order: 1; }
+  .case__img--last { order: 2; }
+  .case__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .case__text { display: flex; flex-direction: column; justify-content: center; order: 2; }
+  .case--sep .case__text { order: 1; }
+  @media (max-width: 899px) {
+    .case, .case--sep { grid-template-columns: 1fr; }
+    .case__img, .case__img--last { order: 1; aspect-ratio: 4 / 3; }
+    .case__text, .case--sep .case__text { order: 2; }
+  }
+  .case__title { font: 500 clamp(26px,3.4vw,42px)/1.1 var(--font-display); color: var(--offwhite); margin: 14px 0 clamp(26px,3.5vw,40px); letter-spacing: -.01em; }
+  .case__meta { display: grid; grid-template-columns: 1fr 1fr; gap: 20px clamp(20px,3vw,40px); padding-bottom: clamp(26px,3.5vw,40px); border-bottom: 1px solid var(--line-light); }
+  @media (max-width: 899px) { .case__meta { grid-template-columns: 1fr; } }
+  .case__label { font: 700 10px var(--font-mono); letter-spacing: .12em; color: var(--grey-400); }
+  .case__label--accent { color: var(--orange); }
+  .case__val { font: 400 14.5px/1.55 var(--font-body); color: var(--offwhite); margin: 7px 0 0; }
+  .case__val--muted { color: var(--grey-400); }
+  .case__result { padding-top: clamp(24px,3.5vw,36px); }
+  .case__risultato { font: 500 clamp(22px,2.6vw,34px)/1.22 var(--font-display); color: var(--offwhite); margin: 12px 0 0; max-width: 520px; letter-spacing: -.01em; }
+
+  /* Processo */
+  .processo { padding: clamp(60px,9vw,110px) var(--pad-x); }
+  .processo__head { max-width: 640px; margin: 0 auto 56px; text-align: center; }
+  .processo__h2 { font: 500 clamp(28px,3.4vw,40px)/1.2 var(--font-display); color: var(--offwhite); margin: 14px 0 16px; }
+  .processo__lead { font: 400 15px/1.6 var(--font-body); color: var(--grey-400); margin: 0; }
+  .timeline { list-style: none; margin: 0 auto; padding: 0 0 0 20px; max-width: 760px; border-left: 2px solid rgba(250,250,248,.15); display: flex; flex-direction: column; gap: 6px; }
+  .timeline__step { padding: 14px 0 14px 20px; }
+  .timeline__num { font: 700 20px var(--font-mono); color: var(--orange); }
+  .timeline__title { font: 600 16px var(--font-display); color: var(--offwhite); margin: 6px 0 4px; }
+  .timeline__desc { font: 400 14px/1.6 var(--font-body); color: var(--grey-400); margin: 0; max-width: 520px; }
+
+  /* Chi siamo */
+  .chi { padding: clamp(72px,10vw,132px) var(--pad-x); }
+  .chi__grid { display: grid; grid-template-columns: minmax(280px,1fr) minmax(300px,1.05fr); gap: clamp(32px,5vw,64px); align-items: center; }
+  @media (max-width: 899px) { .chi__grid { grid-template-columns: 1fr; } }
+  .chi__img { aspect-ratio: 4 / 5; overflow: hidden; }
+  .chi__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .chi__h2 { font: 500 clamp(30px,4vw,50px)/1.1 var(--font-display); color: var(--dark); margin: 0 0 22px; }
+  .chi__text { font: 400 15.5px/1.7 var(--font-body); color: var(--grey-600); margin: 0 0 26px; max-width: 520px; }
+  .chi__bullets { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 14px; max-width: 520px; }
+  .chi__bullet { display: flex; gap: 9px; align-items: flex-start; font: 400 13.5px/1.5 var(--font-body); color: var(--grey-700); }
+  .chi__dot { width: 6px; height: 6px; border-radius: 50%; background: var(--orange); margin-top: 7px; flex: none; }
+
+  /* Contatti */
+  .contatti-lead { font: 400 16px/1.6 var(--font-body); color: var(--grey-500); margin: 0 auto 40px; max-width: 520px; }
+  .contatti-grid { max-width: 1180px; margin: 0 auto 56px; display: grid; grid-template-columns: minmax(0,1.35fr) minmax(240px,.65fr); gap: clamp(32px,5vw,64px); text-align: left; align-items: start; }
+  @media (max-width: 899px) { .contatti-grid { grid-template-columns: 1fr; } }
+  .contatti-aside { border-top: 1px solid rgba(26,29,35,.15); padding-top: 22px; }
+  .aside__label { font: 600 11px var(--font-mono); letter-spacing: .1em; color: var(--grey-500); margin-bottom: 16px; }
+  .aside__actions { display: flex; flex-direction: column; gap: 12px; }
+  .aside__sede { margin-top: 26px; padding-top: 22px; border-top: 1px solid rgba(26,29,35,.15); }
+  .aside__sede-img { aspect-ratio: 4 / 3; overflow: hidden; margin-bottom: 14px; }
+  .aside__sede-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .aside__name { font: 500 15px/1.5 var(--font-display); color: var(--dark); margin: 0; }
+  .aside__addr { font: 400 14px/1.6 var(--font-body); color: var(--grey-600); margin: 4px 0 0; }
+  .aside__maps { display: inline-block; margin-top: 12px; font: 600 13.5px var(--font-body); color: var(--dark); text-decoration: underline; }
+</style>

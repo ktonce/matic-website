@@ -1,0 +1,306 @@
+---
+import '../styles/service.css';
+import Base from '../layouts/Base.astro';
+import LeadForm from '../components/LeadForm.astro';
+import { site, waLink } from '../data/site.js';
+import { servizi, incisioni as d } from '../data/services.js';
+---
+<Base path="/incisioni-laser-cnc" ctaHref="#valutazione" ctaLabel="Richiedi una valutazione" waText={d.waText} stickyCtaHref="#valutazione">
+
+  {/* ── HERO — TODO FOTO: manca la foto reale di una lavorazione ─────────── */}
+  <section id="top" class="in-hero">
+    <div class="container">
+      <span class="eyebrow">{d.hero.eyebrow}</span>
+      <div class="in-hero__grid">
+        <h1 class="al-hero__h1">{d.hero.h1}</h1>
+        <div>
+          <p class="in-hero__lead">{d.hero.lead}</p>
+          <div class="btn-row">
+            <a class="btn btn--primary" href="#valutazione">{d.hero.ctaLabel}</a>
+            <a class="btn btn--ghost-dark" href={d.hero.secondaryHref}>{d.hero.secondaryLabel}</a>
+          </div>
+        </div>
+      </div>
+      <div class="in-hero__facts">
+        {d.hero.facts.map((f, i) => (
+          <>
+            {i > 0 && <span class="svc-hero__sep">·</span>}
+            <span class="svc-hero__fact">{f}</span>
+          </>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ── DUE PERCORSI UTENTE ──────────────────────────────────────────────── */}
+  <section id="percorsi" class="section section--light in-percorsi">
+    <div class="container">
+      <h2 class="in-h2-big">{d.percorsiH2}</h2>
+      <div class="in-paths">
+        <article class="in-path in-path--light">
+          <span class="in-path__eyebrow in-path__eyebrow--accent">{d.percorsoRetail.eyebrow}</span>
+          <h3 class="in-path__h3">{d.percorsoRetail.h3}</h3>
+          <ul class="in-path__list">
+            {d.percorsoRetail.items.map((it) => (
+              <li><span aria-hidden="true">—</span><span>{it}</span></li>
+            ))}
+          </ul>
+          <a class="btn btn--primary in-path__cta" href="#valutazione">{d.percorsoRetail.cta}</a>
+        </article>
+
+        <article class="in-path in-path--dark">
+          <span class="in-path__eyebrow">{d.percorsoTech.eyebrow}</span>
+          <h3 class="in-path__h3 in-path__h3--light">{d.percorsoTech.h3}</h3>
+          <p class="in-path__text">{d.percorsoTech.text}</p>
+          <a class="btn in-path__cta in-path__cta--light" href="#valutazione">{d.percorsoTech.cta}</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  {/* ── LAVORAZIONI ──────────────────────────────────────────────────────── */}
+  <section id="lavorazioni" class="section section--light in-lavorazioni">
+    <div class="container bordered-top">
+      <div class="split split--end">
+        <div>
+          <span class="eyebrow eyebrow--accent">{d.lavorazioniHead.eyebrow}</span>
+          <h2 class="al-h2-mid">{d.lavorazioniHead.h2}</h2>
+        </div>
+        <p class="svc-muted">{d.lavorazioniHead.lead}</p>
+      </div>
+      <div class="al-ambiti__grid">
+        {d.lavorazioni.map((lv) => (
+          <article class="al-ambito">
+            <h3 class="al-ambito__title">{lv.title}</h3>
+            <p class="al-ambito__desc">{lv.desc}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ── FATTIBILITÀ — nessuna specifica tecnica: non confermata ──────────── */}
+  <section id="fattibilita" class="section--dark in-fattibilita">
+    <div class="container">
+      <div class="split split--file">
+        <h2 class="in-fatt__h2">{d.fattibilita.h2}</h2>
+        <div>
+          <p class="stampa-file__text">{d.fattibilita.text}</p>
+          {d.fattibilita.capabilities.length > 0 && (
+            <ul class="file-req">
+              {d.fattibilita.capabilities.map((tc) => (
+                <li><span class="file-req__label">{tc.label}</span><span class="file-req__value">{tc.value}</span></li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+
+      <div class="container bordered-top-light split split--file in-fatt__second">
+        <h2 class="svc-h2-light">{d.fattibilita.fileH2}</h2>
+        <div>
+          <p class="svc-territorio__text">{d.fattibilita.fileText}</p>
+          {d.fattibilita.acceptedFiles.length > 0 && (
+            <div class="in-files">
+              {d.fattibilita.acceptedFiles.map((af) => <span class="in-file">{af}</span>)}
+            </div>
+          )}
+          <a class="svc-territorio__link" href="#valutazione">{d.fattibilita.fileLink}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ── PRIVATO / B2B ────────────────────────────────────────────────────── */}
+  <section class="section section--light in-b2b">
+    <div class="container split split--file">
+      <h2 class="auto-modalita__h2">{d.b2b.h2}</h2>
+      <p class="materiali__text">{d.b2b.text}</p>
+    </div>
+  </section>
+
+  {/*
+    PORTFOLIO — non renderizzato: `lavori` è vuoto.
+    TODO FOTO: nessuna fotografia di targhe, incisioni o componenti lavorati.
+  */}
+
+  {/* ── PROCESSO ─────────────────────────────────────────────────────────── */}
+  <section id="processo" class="section section--light in-processo">
+    <div class="container bordered-top">
+      <h2 class="in-processo__h2">{d.processoH2}</h2>
+      <ol class="svc-steps in-steps">
+        {d.steps.map((st) => (
+          <li class="svc-step stampa-step">
+            <span class="stampa-step__num">{st.num}</span>
+            <h3 class="stampa-step__title">{st.title}</h3>
+            <p class="stampa-step__desc">{st.desc}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  {/* ── FORM ─────────────────────────────────────────────────────────────── */}
+  <section id="valutazione" class="section--dark in-form">
+    <div class="container">
+      <div class="form-head form-head--wide">
+        <h2 class="in-form__h2">{d.form.h2}</h2>
+        <p class="in-form__lead">{d.form.lead}</p>
+      </div>
+      <div id="form" class="svc-form-grid in-form__grid">
+        <div>
+          <LeadForm
+            formId="valutazione-incisioni"
+            servizio="Incisioni e lavorazioni"
+            servizi={servizi}
+            extra={d.form.extra}
+            aziendaLabel={d.form.aziendaLabel}
+            submitLabel={d.form.submitLabel}
+            waText={d.waText}
+          />
+        </div>
+        <aside class="contatti-aside contatti-aside--dark">
+          <div class="aside__label aside__label--light">OPPURE SCRIVICI SUBITO</div>
+          <div class="aside__actions">
+            <a class="btn btn--primary" href={waLink(d.waText)} target="_blank" rel="noopener" style="text-align:center">Scrivici su WhatsApp</a>
+            <a class="btn btn--ghost-dark" href={site.tel.href} style="text-align:center">Chiama lo {site.tel.display}</a>
+            <a class="btn" href={site.email.href} style="color:var(--dark);background:var(--offwhite);text-align:center">Scrivici una email</a>
+          </div>
+          <div class="aside__sede aside__sede--dark">
+            <div class="aside__label aside__label--light">LA NOSTRA SEDE</div>
+            <p class="aside__name aside__name--light">MATIC</p>
+            <p class="aside__addr aside__addr--light">{site.address.street}<br />{site.address.zip} {site.address.city} ({site.address.province})</p>
+            <a class="svc-territorio__link" href={site.maps} target="_blank" rel="noopener">Apri su Google Maps</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  {/* ── FAQ ──────────────────────────────────────────────────────────────── */}
+  <section id="faq" class="section section--light">
+    <div class="container split">
+      <div>
+        <span class="eyebrow eyebrow--accent">{d.faqHead.eyebrow}</span>
+        <h2 class="svc-h2-light svc-h2-light--dark">{d.faqHead.h2}</h2>
+      </div>
+      <div class="faq">
+        {d.faqs.map((f) => (
+          <details>
+            <summary>{f.q}<span class="faq__plus" aria-hidden="true">+</span></summary>
+            <p class="faq__answer">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ── TERRITORIO + CROSS-SELL ──────────────────────────────────────────── */}
+  <section id="territorio" class="section section--light in-territorio">
+    <div class="container bordered-top">
+      <div class="split split--file">
+        <h2 class="auto-modalita__h2">{d.territorio.h2}</h2>
+        <p class="materiali__text">{d.territorio.text}</p>
+      </div>
+      <div class="container bordered-top split split--file in-cross">
+        <h2 class="in-cross__h2">{d.cross.h2}</h2>
+        <div class="cross__links">
+          {d.cross.links.map((l) => <a href={l.href}>{l.label}<span aria-hidden="true">→</span></a>)}
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .in-hero { background: var(--dark); padding: 132px var(--pad-x) 96px; }
+  @media (max-width: 899px) { .in-hero { padding: 104px clamp(20px,5vw,40px) 56px; } }
+  .in-hero__grid { display: grid; grid-template-columns: minmax(320px,1.15fr) minmax(280px,.85fr); gap: clamp(24px,4vw,72px); align-items: end; }
+  @media (max-width: 899px) { .in-hero__grid { grid-template-columns: 1fr; } }
+  .al-hero__h1 { font: 500 clamp(32px,5vw,70px)/1.03 var(--font-display); color: var(--offwhite); margin: 0; letter-spacing: -.015em; text-wrap: pretty; }
+  .in-hero__lead { font: 400 var(--fs-lead)/1.7 var(--font-body); color: var(--grey-400); margin: 0 0 28px; max-width: 460px; }
+  .in-hero__facts { margin-top: clamp(32px,4.5vw,56px); padding-top: clamp(26px,3.5vw,42px); border-top: 1px solid var(--line-light); display: flex; flex-wrap: wrap; gap: 9px 22px; align-items: center; }
+
+  .in-percorsi { padding: clamp(56px,8vw,104px) var(--pad-x) clamp(48px,6vw,80px); }
+  .in-h2-big { font: 500 clamp(30px,4.4vw,58px)/1.06 var(--font-display); color: var(--dark); margin: 0 0 clamp(28px,4vw,48px); letter-spacing: -.015em; max-width: 800px; }
+  .in-paths { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(26,29,35,.16); border: 1px solid rgba(26,29,35,.16); }
+  @media (max-width: 899px) { .in-paths { grid-template-columns: 1fr; } }
+  .in-path { padding: clamp(26px,3.5vw,44px); display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+  .in-path--light { background: var(--offwhite); }
+  .in-path--dark { background: var(--dark); }
+  .in-path__eyebrow { font: 700 10.5px var(--font-mono); letter-spacing: .14em; color: var(--orange); }
+  .in-path__eyebrow--accent { color: var(--accent-text); }
+  .in-path__h3 { font: 500 clamp(22px,2.6vw,32px)/1.15 var(--font-display); color: var(--dark); margin: 0; letter-spacing: -.01em; }
+  .in-path__h3--light { color: var(--offwhite); }
+  .in-path__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+  .in-path__list li { display: grid; grid-template-columns: auto 1fr; gap: 11px; align-items: baseline; font: 400 15px/1.6 var(--font-body); color: var(--grey-600); }
+  .in-path__list li span:first-child { color: var(--accent-text); }
+  .in-path__text { font: 400 15px/1.7 var(--font-body); color: var(--grey-400); margin: 0; }
+  .in-path__cta { align-self: flex-start; margin-top: 4px; padding: 16px 24px; }
+  .in-path__cta--light { color: var(--dark); background: var(--offwhite); }
+  .in-path__cta--light:hover { transform: translateY(-2px); color: var(--dark); }
+
+  .in-lavorazioni { padding: 0 var(--pad-x) clamp(56px,8vw,96px); }
+  .al-h2-mid { font: 500 clamp(28px,4vw,52px)/1.06 var(--font-display); color: var(--dark); margin: 0; letter-spacing: -.015em; }
+  .al-ambiti__grid { display: grid; grid-template-columns: repeat(3,1fr); gap: clamp(20px,3vw,48px) clamp(24px,4vw,64px); }
+  @media (max-width: 1179px) { .al-ambiti__grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 899px)  { .al-ambiti__grid { grid-template-columns: 1fr; } }
+  .al-ambito { min-width: 0; padding-top: 20px; border-top: 1px solid rgba(26,29,35,.16); }
+  .al-ambito__title { font: 500 clamp(20px,2.2vw,27px)/1.2 var(--font-display); color: var(--dark); margin: 0 0 10px; letter-spacing: -.01em; }
+  .al-ambito__desc { font: 400 15px/1.7 var(--font-body); color: var(--grey-600); margin: 0; max-width: 440px; }
+
+  .in-fattibilita { padding: clamp(64px,9vw,116px) var(--pad-x); }
+  .in-fatt__h2 { font: 500 clamp(28px,4vw,52px)/1.06 var(--font-display); color: var(--offwhite); margin: 0; letter-spacing: -.015em; }
+  .in-fatt__second { margin-top: clamp(40px,5vw,64px); }
+  .stampa-file__text { font: 400 clamp(16px,1.6vw,19px)/1.75 var(--font-body); color: var(--grey-400); margin: 0 0 24px; max-width: 620px; }
+  .split--file { grid-template-columns: minmax(280px,.9fr) minmax(320px,1.1fr); gap: clamp(24px,4vw,72px); align-items: start; }
+  @media (max-width: 899px) { .split--file { grid-template-columns: 1fr; } }
+  .file-req { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; max-width: 620px; }
+  .file-req li { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: baseline; padding-bottom: 12px; border-bottom: 1px solid rgba(250,250,248,.14); }
+  .file-req__label { font: 600 11px var(--font-mono); letter-spacing: .1em; color: var(--orange); }
+  .file-req__value { font: 400 14.5px/1.6 var(--font-body); color: var(--grey-400); }
+  .in-files { display: flex; flex-wrap: wrap; gap: 8px; max-width: 620px; margin-bottom: 18px; }
+  .in-file { font: 600 11px var(--font-mono); letter-spacing: .1em; color: var(--offwhite); border: 1px solid rgba(250,250,248,.28); padding: 8px 12px; border-radius: var(--radius); }
+
+  .in-b2b { padding: clamp(56px,8vw,96px) var(--pad-x) clamp(40px,5vw,64px); }
+  .auto-modalita__h2 { font: 500 clamp(24px,3.2vw,42px)/1.1 var(--font-display); color: var(--dark); margin: 0; letter-spacing: -.01em; }
+  .materiali__text { font: 400 clamp(16px,1.6vw,19px)/1.7 var(--font-body); color: var(--grey-600); margin: 0; max-width: 620px; }
+
+  .in-processo { padding: 0 var(--pad-x) clamp(56px,8vw,96px); }
+  .in-processo__h2 { font: 500 clamp(26px,3.4vw,44px)/1.1 var(--font-display); color: var(--dark); margin: 0 0 clamp(32px,4vw,56px); letter-spacing: -.01em; max-width: 680px; }
+  .in-steps { grid-template-columns: repeat(4,1fr); }
+  @media (max-width: 1179px) { .in-steps { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 899px)  { .in-steps { grid-template-columns: 1fr; } }
+  .stampa-step { border-left-color: var(--line-dark); }
+  @media (max-width: 899px) { .stampa-step { border-top-color: var(--line-dark); } }
+  .stampa-step__num { display: block; font: 700 10.5px var(--font-mono); letter-spacing: .14em; color: var(--accent-text); margin-bottom: 14px; }
+  .stampa-step__title { font: 500 18px/1.25 var(--font-display); color: var(--dark); margin: 0 0 10px; }
+  .stampa-step__desc { font: 400 13.8px/1.6 var(--font-body); color: var(--grey-500); margin: 0; }
+
+  /* Form su fondo scuro: unico caso nel sito */
+  .in-form { padding: clamp(64px,9vw,116px) var(--pad-x); }
+  .in-form__h2 { font: 500 clamp(32px,5vw,68px)/1.03 var(--font-display); color: var(--offwhite); margin: 0 0 18px; letter-spacing: -.015em; }
+  .in-form__lead { font: 400 16.5px/1.7 var(--font-body); color: var(--grey-400); margin: 0; }
+  .in-form__grid :global(.field__label) { color: var(--grey-400); }
+  .in-form__grid :global(.lead-form__privacy) { color: var(--grey-400); }
+  .in-form__grid :global(.lead-form__privacy a) { color: var(--offwhite); }
+  .in-form__grid :global(.form-success) { background: var(--dark); }
+  .in-form__grid :global(.form-success__title) { color: var(--offwhite); }
+  .in-form__grid :global(.form-success__text) { color: var(--grey-400); }
+  .in-form__grid :global(.lead-form__status) { color: var(--orange); }
+  .contatti-aside--dark { border-top-color: var(--line-light); }
+  .aside__label--light { color: var(--grey-400); }
+  .aside__name--light { color: var(--offwhite); }
+  .aside__addr--light { color: var(--grey-400); }
+  .aside__sede--dark { border-top-color: var(--line-light); }
+  .aside__label { font: 600 11px var(--font-mono); letter-spacing: .1em; color: var(--grey-500); margin-bottom: 16px; }
+  .aside__actions { display: flex; flex-direction: column; gap: 12px; }
+  .aside__sede { margin-top: 26px; padding-top: 22px; border-top: 1px solid rgba(26,29,35,.15); }
+  .aside__name { font: 500 15px/1.5 var(--font-display); color: var(--dark); margin: 0; }
+  .aside__addr { font: 400 14px/1.6 var(--font-body); color: var(--grey-600); margin: 4px 0 0; }
+  .form-head--wide { max-width: 760px; }
+
+  .in-territorio { padding: 0 var(--pad-x) clamp(56px,8vw,96px); }
+  .in-cross { margin-top: clamp(36px,4.5vw,56px); padding-top: clamp(28px,3.5vw,44px); }
+  .in-cross__h2 { font: 500 clamp(20px,2.4vw,28px)/1.2 var(--font-display); color: var(--dark); margin: 0; letter-spacing: -.01em; }
+</style>

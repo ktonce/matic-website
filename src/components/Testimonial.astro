@@ -1,0 +1,8 @@
+---
+const { name, role, text, onDark = false } = Astro.props;
+---
+{/* Testo della recensione mai riscritto: arriva da src/data/testimonials.js */}
+<figure class={onDark ? 'testimonial testimonial--on-dark' : 'testimonial'}>
+  <blockquote>{text}</blockquote>
+  <figcaption>{name} · {role}</figcaption>
+</figure>

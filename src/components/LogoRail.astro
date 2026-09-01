@@ -1,0 +1,84 @@
+---
+import { clientiLoghi } from '../data/clienti.js';
+
+/*
+  Fascia loghi clienti — blocco corporate.
+  - scorrimento continuo lento, traccia duplicata per il loop;
+  - pausa su hover e su focus da tastiera;
+  - con prefers-reduced-motion: reduce diventa una griglia statica;
+  - senza JS resta comunque tutto visibile (animazione solo CSS).
+  La copia duplicata è aria-hidden: gli screen reader leggono un solo elenco.
+*/
+---
+<div class="logo-rail" aria-label="Alcune realtà che hanno scelto MATIC">
+  <div class="logo-rail__viewport">
+    <ul class="logo-rail__track">
+      {clientiLoghi.map((c) => (
+        <li class="logo-rail__item">
+          <img src={c.file} alt={c.name} width="440" height="150" loading="lazy" decoding="async" style={`--logo-scale:${c.scale}`} />
+        </li>
+      ))}
+    </ul>
+    <ul class="logo-rail__track logo-rail__track--clone" aria-hidden="true">
+      {clientiLoghi.map((c) => (
+        <li class="logo-rail__item">
+          <img src={c.file} alt="" width="440" height="150" loading="lazy" decoding="async" style={`--logo-scale:${c.scale}`} />
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>
+
+<style>
+  .logo-rail {
+    --rail-h: 58px;
+    --rail-gap: clamp(38px, 5vw, 72px);
+    position: relative;
+    padding: clamp(26px, 3vw, 38px) 0;
+    background: #FFFFFF;
+    border: 1px solid rgba(26,29,35,.10);
+    overflow: hidden;
+  }
+  /* Fade laterali leggeri: chiudono la fascia senza tagliare bruscamente. */
+  .logo-rail::before,
+  .logo-rail::after {
+    content: ''; position: absolute; top: 0; bottom: 0; width: clamp(40px, 8%, 110px);
+    pointer-events: none; z-index: 2;
+  }
+  .logo-rail::before { left: 0;  background: linear-gradient(to right, #FFFFFF 12%, rgba(255,255,255,0)); }
+  .logo-rail::after  { right: 0; background: linear-gradient(to left,  #FFFFFF 12%, rgba(255,255,255,0)); }
+
+  .logo-rail__viewport { display: flex; width: max-content; }
+  .logo-rail__track {
+    list-style: none; margin: 0; padding: 0 0 0 var(--rail-gap);
+    display: flex; align-items: center; gap: var(--rail-gap);
+    animation: logo-rail-scroll 72s linear infinite;
+  }
+  .logo-rail__item { display: flex; align-items: center; justify-content: center; }
+  .logo-rail__item img {
+    height: calc(var(--rail-h) * var(--logo-scale, 1));
+    width: auto; max-width: none; display: block;
+    object-fit: contain;
+  }
+
+  .logo-rail:hover .logo-rail__track,
+  .logo-rail:focus-within .logo-rail__track { animation-play-state: paused; }
+
+  @keyframes logo-rail-scroll {
+    from { transform: translate3d(0, 0, 0); }
+    to   { transform: translate3d(-100%, 0, 0); }
+  }
+
+  @media (max-width: 899px) {
+    .logo-rail { --rail-h: 46px; }
+  }
+
+  /* Nessun movimento automatico: griglia statica, leggibile e completa. */
+  @media (prefers-reduced-motion: reduce) {
+    .logo-rail { overflow: visible; padding: clamp(22px, 3vw, 32px) clamp(16px, 3vw, 28px); }
+    .logo-rail::before, .logo-rail::after { display: none; }
+    .logo-rail__viewport { width: auto; }
+    .logo-rail__track { animation: none; flex-wrap: wrap; justify-content: center; padding: 0; row-gap: clamp(24px, 3vw, 34px); }
+    .logo-rail__track--clone { display: none; }
+  }
+</style>

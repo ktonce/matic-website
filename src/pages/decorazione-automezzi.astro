@@ -1,0 +1,315 @@
+---
+import '../styles/service.css';
+import Base from '../layouts/Base.astro';
+import LeadForm from '../components/LeadForm.astro';
+import Lightbox from '../components/Lightbox.astro';
+import { site, waLink } from '../data/site.js';
+import { servizi, decorazioneAutomezzi as d } from '../data/services.js';
+import { pick } from '../data/testimonials.js';
+
+const testimonialList = pick(['Federico T.']);
+---
+<Base path="/decorazione-automezzi" ctaHref="#preventivo" waText={d.waText} stickyCtaHref="#preventivo">
+
+  {/* ── HERO ─────────────────────────────────────────────────────────────── */}
+  <section id="top" class="auto-hero">
+    <div class="container">
+      <span class="eyebrow">{d.hero.eyebrow}</span>
+      <div class="auto-hero__grid">
+        <h1 class="svc-hero__h1">{d.hero.h1}</h1>
+        <div>
+          <p class="auto-hero__lead">{d.hero.lead}</p>
+          <div class="btn-row">
+            <a class="btn btn--primary" href="#preventivo">{d.hero.ctaLabel}</a>
+            <a class="btn btn--ghost-dark" href={d.hero.secondaryHref}>{d.hero.secondaryLabel}</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="auto-hero__img">
+        <img src={d.hero.image} alt={d.hero.alt} loading="eager" fetchpriority="high" decoding="async" width="480" height="360" />
+      </div>
+
+      <div class="auto-hero__facts">
+        {d.hero.facts.map((f, i) => (
+          <>
+            {i > 0 && <span class="svc-hero__sep">·</span>}
+            <span class="svc-hero__fact">{f}</span>
+          </>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ── PORTFOLIO — solo lavori reali su automezzi ────────────────────────── */}
+  <section id="lavori" class="section section--light auto-lavori">
+    <div class="container">
+      <div class="split split--end">
+        <div>
+          <span class="eyebrow eyebrow--accent">{d.portfolioHead.eyebrow}</span>
+          <h2 class="svc-h2-mid">{d.portfolioHead.h2}</h2>
+        </div>
+        <a class="works__all" href="/lavori">{d.portfolioHead.link}</a>
+      </div>
+
+      <div class="auto-works">
+        {d.works.map((w) => (
+          <article
+            class={'ins-work' + (w.wide ? ' auto-work--wide' : '')}
+            data-work data-cat="Automezzi"
+            data-img={w.img} data-alt={w.alt} data-tag={w.tag} data-title={w.title}
+          >
+            <button class="work__btn" data-work-open type="button" aria-label={'Ingrandisci: ' + w.title}>
+              <span class="ins-work__img" style={'aspect-ratio:' + w.ratio}>
+                <img src={w.img} alt={w.alt} loading="lazy" decoding="async" />
+              </span>
+            </button>
+            <div class="ins-work__body">
+              <span class="ins-work__tag">{w.tag}</span>
+              <h3 class="ins-work__title">{w.title}</h3>
+              {w.localita && <span class="ins-work__meta">{w.localita.toUpperCase()}</span>}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ── COSA PERSONALIZZIAMO ─────────────────────────────────────────────── */}
+  <section id="mezzi" class="section section--light auto-mezzi">
+    <div class="container bordered-top">
+      <div class="split split--end">
+        <h2 class="svc-h2-mid svc-h2-mid--sm">{d.mezziHead.h2}</h2>
+        <p class="svc-muted">{d.mezziHead.lead}</p>
+      </div>
+
+      <div class="auto-cats">
+        {d.categorie.map((c) => (
+          <article>
+            <div class="auto-cat__img">
+              <img src={c.image} alt={c.alt} loading="lazy" decoding="async" />
+            </div>
+            <h3 class="auto-cat__title">{c.title}</h3>
+            <p class="auto-cat__desc">{c.desc}</p>
+          </article>
+        ))}
+      </div>
+
+      <div class="auto-altre">
+        {d.altreCategorie.map((a) => (
+          <div class="auto-altre__item">
+            <h3 class="altre__title">{a.title}</h3>
+            <p class="altre__desc">{a.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ── MODALITÀ DI DECORAZIONE ──────────────────────────────────────────── */}
+  <section class="section section--light" style="padding-top:0">
+    <div class="container bordered-top materiali">
+      <h2 class="auto-modalita__h2">{d.modalita.h2}</h2>
+      <p class="materiali__text">{d.modalita.text}</p>
+    </div>
+  </section>
+
+  {/* ── PERCHÉ MATIC ─────────────────────────────────────────────────────── */}
+  <section id="perche" class="section--dark svc-perche">
+    <div class="container">
+      <span class="eyebrow">{d.percheHead.eyebrow}</span>
+      <h2 class="svc-h2-dark svc-h2-dark--narrow">{d.percheHead.h2}</h2>
+      <div class="svc-perks">
+        {d.perks.map((p) => (
+          <div class="svc-perk">
+            <span class="svc-perk__num">{p.num}</span>
+            <h3 class="svc-perk__title">{p.title}</h3>
+            <p class="svc-perk__desc">{p.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ── PROCESSO ─────────────────────────────────────────────────────────── */}
+  <section id="processo" class="section--dark auto-processo">
+    <div class="container bordered-top-light">
+      <h2 class="svc-h2-light auto-processo__h2">{d.processoH2}</h2>
+      <ol class="svc-steps auto-steps">
+        {d.steps.map((s) => (
+          <li class="svc-step">
+            <span class="svc-step__num">{s.num}</span>
+            <h3 class="svc-step__title">{s.title}</h3>
+            <p class="svc-step__desc">{s.desc}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  {/* ── FLOTTE ───────────────────────────────────────────────────────────── */}
+  <section id="flotte" class="section--dark auto-flotte">
+    <div class="container bordered-top-light split">
+      <h2 class="svc-h2-light">{d.flotte.h2}</h2>
+      <div>
+        <p class="svc-territorio__text">{d.flotte.text}</p>
+        <a class="svc-territorio__link" href="#preventivo">{d.flotte.link}</a>
+      </div>
+    </div>
+  </section>
+
+  {/* ── WHATSAPP CONTESTUALE ─────────────────────────────────────────────── */}
+  <section class="wa-band">
+    <div class="container wa-band__inner">
+      <div style="max-width:560px">
+        <h2 class="wa-band__h2">{d.whatsapp.h2}</h2>
+        <p class="wa-band__text">{d.whatsapp.text}</p>
+      </div>
+      <a class="wa-band__cta" href={waLink(d.waText)} target="_blank" rel="noopener">{d.whatsapp.cta}</a>
+    </div>
+  </section>
+
+  {/* ── FAQ ──────────────────────────────────────────────────────────────── */}
+  <section id="faq" class="section section--light">
+    <div class="container split">
+      <div>
+        <span class="eyebrow eyebrow--accent">{d.faqHead.eyebrow}</span>
+        <h2 class="svc-h2-light svc-h2-light--dark">{d.faqHead.h2}</h2>
+      </div>
+      <div class="faq">
+        {d.faqs.map((f) => (
+          <details>
+            <summary>{f.q}<span class="faq__plus" aria-hidden="true">+</span></summary>
+            <p class="faq__answer">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ── CTA + FORM ───────────────────────────────────────────────────────── */}
+  <section id="preventivo" class="section section--light" style="padding-top:0">
+    <div class="container bordered-top">
+      <div class="form-head">
+        <h2 class="form-head__h2">{d.form.h2}</h2>
+        <p class="form-head__lead">{d.form.lead}</p>
+        <div class="btn-row">
+          <a class="btn btn--primary" href="#form">{d.form.ctaPrimary}</a>
+          <a class="btn btn--ghost-light" href={waLink(d.waText)} target="_blank" rel="noopener">{d.form.ctaSecondary}</a>
+        </div>
+      </div>
+
+      <div id="form" class="svc-form-grid">
+        <div>
+          <LeadForm
+            formId="preventivo-automezzi"
+            servizio="Decorazione automezzi"
+            servizi={servizi}
+            extra={d.form.extra}
+            aziendaLabel={d.form.aziendaLabel}
+            submitLabel={d.form.submitLabel}
+            waText={d.waText}
+          />
+        </div>
+
+        <aside class="contatti-aside">
+          <div class="aside__label">OPPURE SCRIVICI SUBITO</div>
+          <div class="aside__actions">
+            <a class="btn btn--primary" href={waLink(d.waText)} target="_blank" rel="noopener" style="text-align:center">Scrivici su WhatsApp</a>
+            <a class="btn btn--ghost-light" href={site.tel.href} style="text-align:center">Chiama lo {site.tel.display}</a>
+            <a class="btn" href={site.email.href} style="color:var(--offwhite);background:var(--dark);text-align:center">Scrivici una email</a>
+          </div>
+          <div class="aside__sede">
+            <div class="aside__label">LA NOSTRA SEDE</div>
+            <p class="aside__name">MATIC</p>
+            <p class="aside__addr">{site.address.street}<br />{site.address.zip} {site.address.city} ({site.address.province})</p>
+            <a class="aside__maps" href={site.maps} target="_blank" rel="noopener">Apri su Google Maps</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  {/* ── TERRITORIO + TESTIMONIAL Federico T. ─────────────────────────────── */}
+  <section id="territorio" class="section--dark svc-territorio">
+    <div class="container split">
+      <h2 class="svc-h2-light">{d.territorio.h2}</h2>
+      <p class="svc-territorio__text">{d.territorio.text}</p>
+      {testimonialList.map((t) => (
+        <figure class="testimonial testimonial--on-dark auto-testimonial">
+          <blockquote>{t.text}</blockquote>
+          <figcaption>{t.name} · {t.role}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+
+  {/* ── CROSS-SELL ───────────────────────────────────────────────────────── */}
+  <section class="section section--light">
+    <div class="container cross">
+      <div style="max-width:520px">
+        <h2 class="cross__h2">{d.cross.h2}</h2>
+        <p class="cross__text">{d.cross.text}</p>
+      </div>
+      <div class="cross__links">
+        {d.cross.links.map((l) => <a href={l.href}>{l.label}<span aria-hidden="true">→</span></a>)}
+      </div>
+    </div>
+  </section>
+
+  <Lightbox slot="after" />
+</Base>
+
+<style>
+  /* Specifico di /decorazione-automezzi */
+  .auto-hero { background: var(--dark); padding: 132px var(--pad-x) 96px; }
+  @media (max-width: 899px) { .auto-hero { padding: 104px clamp(20px,5vw,40px) 56px; } }
+  .auto-hero__grid { display: grid; grid-template-columns: minmax(320px,1.15fr) minmax(280px,.85fr); gap: clamp(24px,4vw,72px); align-items: end; }
+  @media (max-width: 899px) { .auto-hero__grid { grid-template-columns: 1fr; } }
+  .auto-hero__lead { font: 400 var(--fs-lead)/1.7 var(--font-body); color: var(--grey-400); margin: 0 0 28px; max-width: 460px; }
+  .auto-hero__img { margin: clamp(32px,4.5vw,56px) 0 0; aspect-ratio: 21 / 9; overflow: hidden; }
+  @media (max-width: 899px) { .auto-hero__img { aspect-ratio: 4 / 3; } }
+  .auto-hero__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .auto-hero__facts { display: flex; flex-wrap: wrap; gap: 9px 22px; align-items: center; margin-top: 26px; }
+
+  .auto-lavori { padding: clamp(56px,8vw,104px) var(--pad-x) clamp(40px,5vw,64px); }
+  .auto-works { display: grid; grid-template-columns: repeat(2,1fr); gap: clamp(14px,2vw,28px); }
+  @media (max-width: 899px) { .auto-works { grid-template-columns: 1fr; } }
+  .auto-work--wide { grid-column: span 2; }
+  @media (max-width: 899px) { .auto-work--wide { grid-column: span 1; } }
+
+  .auto-mezzi { padding: clamp(40px,6vw,80px) var(--pad-x); }
+  .svc-h2-mid--sm { font-size: clamp(28px,4vw,52px); }
+  .auto-cats { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(18px,2.5vw,36px); }
+  @media (max-width: 899px) { .auto-cats { grid-template-columns: 1fr; } }
+  .auto-cat__img { aspect-ratio: 16 / 10; overflow: hidden; margin-bottom: 18px; }
+  .auto-cat__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .auto-cat__title { font: 500 clamp(20px,2.2vw,27px)/1.2 var(--font-display); color: var(--dark); margin: 0 0 10px; letter-spacing: -.01em; }
+  .auto-cat__desc { font: 400 15px/1.7 var(--font-body); color: var(--grey-600); margin: 0; max-width: 460px; }
+  .auto-altre { margin-top: clamp(28px,4vw,44px); padding-top: clamp(24px,3vw,36px); border-top: 1px solid var(--line-dark); display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px,3vw,48px); }
+  @media (max-width: 899px) { .auto-altre { grid-template-columns: 1fr; } }
+  .auto-altre__item { max-width: 420px; }
+
+  .auto-modalita__h2 { font: 500 clamp(24px,3.2vw,42px)/1.1 var(--font-display); color: var(--dark); margin: 0; letter-spacing: -.01em; }
+  .svc-h2-dark--narrow { max-width: 760px; }
+  .auto-processo { padding: 0 var(--pad-x) clamp(56px,8vw,96px); }
+  .auto-processo__h2 { margin-bottom: clamp(32px,4vw,56px); max-width: 680px; }
+  .auto-steps { grid-template-columns: repeat(4,1fr); }
+  @media (max-width: 1179px) { .auto-steps { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 899px)  { .auto-steps { grid-template-columns: 1fr; } }
+  .auto-flotte { padding: 0 var(--pad-x) clamp(64px,9vw,116px); }
+  .auto-testimonial { grid-column: 1 / -1; margin-top: clamp(28px,3.5vw,44px); }
+
+  /* Banda WhatsApp contestuale */
+  .wa-band { background: var(--orange); padding: clamp(40px,5.5vw,72px) var(--pad-x); }
+  .wa-band__inner { display: flex; flex-wrap: wrap; gap: 24px 48px; align-items: center; justify-content: space-between; }
+  .wa-band__h2 { font: 500 clamp(22px,2.8vw,36px)/1.15 var(--font-display); color: var(--dark); margin: 0; letter-spacing: -.01em; }
+  .wa-band__text { font: 400 15px/1.6 var(--font-body); color: rgba(26,29,35,.75); margin: 10px 0 0; }
+  .wa-band__cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    font: 600 15px var(--font-body); color: var(--offwhite); background: var(--dark);
+    padding: 18px 28px; border-radius: var(--radius); min-height: 44px;
+    transition: transform .15s ease;
+  }
+  .wa-band__cta:hover { transform: translateY(-2px); color: var(--offwhite); }
+</style>

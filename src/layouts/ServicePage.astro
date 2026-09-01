@@ -1,0 +1,193 @@
+---
+import Base from './Base.astro';
+import LeadForm from '../components/LeadForm.astro';
+import FAQ from '../components/FAQ.astro';
+import Testimonial from '../components/Testimonial.astro';
+import PortfolioGrid from '../components/PortfolioGrid.astro';
+import Lightbox from '../components/Lightbox.astro';
+import { site, waLink } from '../data/site.js';
+import { services } from '../data/navigation.js';
+import { pick, byPage } from '../data/testimonials.js';
+import { byCategory } from '../data/works.js';
+
+/*
+  Scheletro comune delle sei pagine servizio: hero, sezioni specifiche (slot),
+  portfolio, testimonial, form, FAQ, territorio, cross-sell.
+  Le sezioni unique di ogni servizio arrivano dallo <slot /> della pagina.
+*/
+const {
+  path,
+  hero,              // { eyebrow, h1, lead, ctaLabel, ctaHref, image, alt }
+  formId,
+  servizio,
+  servizi = [],
+  formExtra = [],
+  formHeading,
+  formLead,
+  submitLabel = 'Richiedi il preventivo',
+  waText = '',
+  faqs = [],
+  territorio,        // { h2, text }
+  workCategory = null,
+  crossHeading = 'Completa l\'immagine della tua attività.',
+  crossLinks = []
+} = Astro.props;
+
+const testimonialList = pick(byPage[path] || []);
+const workItems = workCategory ? byCategory(workCategory) : [];
+const anchor = '#' + formId;
+---
+<Base path={path} ctaHref={anchor} ctaLabel={hero.ctaLabel || 'Richiedi un preventivo'} waText={waText} stickyCtaHref={anchor}>
+
+  {/* ── HERO ─────────────────────────────────────────────────────────────── */}
+  <section id="top" class="svc-hero">
+    <div class="svc-hero__text">
+      <span class="eyebrow">{hero.eyebrow}</span>
+      <h1 class="svc-hero__h1">{hero.h1}</h1>
+      <p class="svc-hero__lead">{hero.lead}</p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href={anchor}>{hero.ctaLabel || 'Richiedi un preventivo'}</a>
+        {hero.secondaryHref && <a class="btn btn--ghost-dark" href={hero.secondaryHref}>{hero.secondaryLabel}</a>}
+      </div>
+    </div>
+    {hero.image && (
+      <div class="svc-hero__img">
+        <img src={hero.image} alt={hero.alt} loading="eager" fetchpriority="high" decoding="async" />
+      </div>
+    )}
+  </section>
+
+  {/* Sezioni specifiche del servizio */}
+  <slot />
+
+  {/* ── PORTFOLIO — solo se esistono lavori reali di questa categoria ────── */}
+  {workItems.length > 0 && (
+    <section id="lavori" class="section section--light">
+      <div class="container">
+        <span class="eyebrow">LAVORI REALIZZATI</span>
+        <PortfolioGrid items={workItems} showLinks={false} />
+      </div>
+    </section>
+  )}
+
+  {/* ── TESTIMONIAL — solo dove la recensione documenta la lavorazione ───── */}
+  {testimonialList.length > 0 && (
+    <section id="dicono" class="section section--light">
+      <div class="container">
+        <span class="eyebrow">DICONO DI NOI</span>
+        <div class="svc-testimonials">
+          {testimonialList.map((t) => <Testimonial name={t.name} role={t.role} text={t.text} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {/* ── FORM ─────────────────────────────────────────────────────────────── */}
+  <section id={formId} class="section section--light">
+    <div class="container">
+      <div style="max-width:720px;margin:0 0 clamp(36px,5vw,56px)">
+        <h2 class="svc-h2">{formHeading}</h2>
+        <p class="svc-lead">{formLead}</p>
+      </div>
+
+      <div class="svc-form-grid">
+        <div>
+          <LeadForm
+            formId={formId}
+            servizio={servizio}
+            servizi={servizi}
+            extra={formExtra}
+            submitLabel={submitLabel}
+            waText={waText}
+          />
+        </div>
+
+        <aside class="contatti-aside">
+          <div class="site-footer__label" style="color:var(--grey-500)">OPPURE SCRIVICI SUBITO</div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <a class="btn btn--primary" href={waLink(waText)} target="_blank" rel="noopener" style="text-align:center">Scrivici su WhatsApp</a>
+            <a class="btn btn--ghost-light" href={site.tel.href} style="text-align:center">Chiama lo {site.tel.display}</a>
+            <a class="btn" href={site.email.href} style="color:var(--offwhite);background:var(--dark);text-align:center">Scrivici una email</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  {/* ── FAQ ──────────────────────────────────────────────────────────────── */}
+  {faqs.length > 0 && (
+    <section id="faq" class="section section--light">
+      <div class="container split">
+        <h2 class="svc-h2">Domande frequenti</h2>
+        <FAQ items={faqs} />
+      </div>
+    </section>
+  )}
+
+  {/* ── TERRITORIO ───────────────────────────────────────────────────────── */}
+  {territorio && (
+    <section id="territorio" class="section section--dark">
+      <div class="container split">
+        <h2 class="svc-h2 svc-h2--light">{territorio.h2}</h2>
+        <p class="svc-lead svc-lead--light">{territorio.text}</p>
+      </div>
+    </section>
+  )}
+
+  {/* ── CROSS-SELL ───────────────────────────────────────────────────────── */}
+  {crossLinks.length > 0 && (
+    <section class="section section--dark" style="padding-top:0">
+      <div class="container split">
+        <h2 class="svc-h2 svc-h2--light">{crossHeading}</h2>
+        <div class="svc-cross">
+          {crossLinks.map((slug) => {
+            const s = services.find((x) => x.slug === slug);
+            return s ? <a href={s.slug}>{s.label}<span aria-hidden="true">→</span></a> : null;
+          })}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {workItems.length > 0 && <Lightbox slot="after" />}
+</Base>
+
+<style>
+  .svc-hero {
+    background: var(--dark);
+    display: grid; grid-template-columns: minmax(320px,1.05fr) minmax(280px,.95fr);
+    align-items: center; gap: clamp(32px,4vw,64px);
+    padding: 132px var(--pad-x) 96px;
+  }
+  .svc-hero__text { max-width: 640px; }
+  .svc-hero__h1 { font: 500 var(--fs-h1)/1.02 var(--font-display); color: var(--offwhite); margin: 0; letter-spacing: -.015em; }
+  .svc-hero__lead { font: 400 var(--fs-lead)/1.7 var(--font-body); color: var(--grey-400); max-width: 540px; margin: 26px 0 34px; }
+  .svc-hero__img { height: 560px; overflow: hidden; }
+  .svc-hero__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  @media (max-width: 1179px) { .svc-hero__img { height: 440px; } }
+  @media (max-width: 899px) {
+    .svc-hero { grid-template-columns: 1fr; padding: 104px clamp(20px,5vw,40px) 56px; }
+    .svc-hero__img { height: auto; aspect-ratio: 4 / 3; }
+  }
+
+  .svc-h2 { font: 500 clamp(32px,5vw,68px)/1.03 var(--font-display); color: var(--dark); margin: 0 0 18px; letter-spacing: -.015em; }
+  .svc-h2--light { color: var(--offwhite); font-size: clamp(24px,3.2vw,42px); margin: 0; }
+  .svc-lead { font: 400 16.5px/1.7 var(--font-body); color: var(--grey-500); margin: 0; }
+  .svc-lead--light { color: var(--grey-400); max-width: 620px; }
+
+  .svc-form-grid { display: grid; grid-template-columns: minmax(0,1.35fr) minmax(240px,.65fr); gap: clamp(32px,5vw,64px); align-items: start; }
+  @media (max-width: 899px) { .svc-form-grid { grid-template-columns: 1fr; } }
+  .contatti-aside { border-top: 1px solid rgba(26,29,35,.15); padding-top: 22px; }
+
+  .svc-testimonials { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px,3vw,56px); }
+  @media (max-width: 899px) { .svc-testimonials { grid-template-columns: 1fr; } }
+
+  .svc-cross { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .svc-cross a {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    font: 500 15.5px var(--font-body); color: var(--offwhite);
+    padding: 15px 0; border-bottom: 1px solid var(--line-light); min-height: 44px;
+  }
+  .svc-cross a:last-child { border-bottom: none; }
+  .svc-cross a:hover { color: var(--orange); }
+</style>

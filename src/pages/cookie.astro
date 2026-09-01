@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base path="/cookie">
+  <section id="top" class="legal-hero">
+    <div class="container">
+      <span class="eyebrow">COOKIE</span>
+      <h1 class="legal-hero__h1">Cookie policy</h1>
+      <p class="legal-notice">
+        <strong>CONTENUTO LEGALE DA APPROVARE.</strong>
+        Questa pagina esiste per garantire la navigabilità del sito e l'assenza di 404.
+        I testi vanno forniti e approvati da MATIC (o dal suo consulente) prima della
+        pubblicazione: nessun testo legale è stato redatto qui.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--light">
+    <div class="container legal-body">
+      <h2>Cosa sono i cookie</h2>
+      <p class="legal-placeholder">CONTENUTO LEGALE DA APPROVARE</p>
+      <h2>Cookie tecnici utilizzati dal sito</h2>
+      <p class="legal-placeholder">CONTENUTO LEGALE DA APPROVARE</p>
+      <h2>Cookie analitici e di profilazione</h2>
+      <p class="legal-placeholder">CONTENUTO LEGALE DA APPROVARE</p>
+      <h2>Cookie di terze parti</h2>
+      <p class="legal-placeholder">CONTENUTO LEGALE DA APPROVARE</p>
+      <h2>Come gestire le preferenze</h2>
+      <p class="legal-placeholder">CONTENUTO LEGALE DA APPROVARE</p>
+      <h2>Aggiornamenti della presente informativa</h2>
+      <p class="legal-placeholder">CONTENUTO LEGALE DA APPROVARE</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .legal-hero { background: var(--dark); padding: 148px var(--pad-x) 72px; }
+  .legal-hero__h1 { font: 500 clamp(30px,4.2vw,56px)/1.05 var(--font-display); color: var(--offwhite); margin: 0; letter-spacing: -.015em; }
+  .legal-notice {
+    font: 400 14.5px/1.7 var(--font-body); color: var(--grey-400);
+    max-width: 700px; margin: 26px 0 0; padding: 16px 18px;
+    border-left: 2px solid var(--orange); background: rgba(255,107,53,.08);
+  }
+  .legal-notice strong { color: var(--orange); }
+  @media (max-width: 899px) { .legal-hero { padding: 104px clamp(20px,5vw,40px) 48px; } }
+
+  .legal-body { max-width: 780px; }
+  .legal-body h2 { font: 500 clamp(19px,2.1vw,26px)/1.3 var(--font-display); color: var(--dark); margin: 36px 0 10px; }
+  .legal-body h2:first-child { margin-top: 0; }
+  .legal-placeholder {
+    font: 400 14px/1.7 var(--font-mono); color: var(--grey-500);
+    margin: 0; padding: 14px 16px; border: 1px dashed var(--line-dark-3);
+  }
+</style>

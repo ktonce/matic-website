@@ -1,0 +1,140 @@
+/* ============================================================================
+   MATIC — Design tokens
+   Valori identici al prototipo approvato. Non modificare senza approvazione.
+   ========================================================================= */
+:root {
+  /* Colori */
+  --dark:        #1A1D23;
+  --dark-deep:   #101216;
+  --orange:      #FF6B35;
+  --orange-hover:#E14E1D;
+  --offwhite:    #FAFAF8;
+  --white:       #ffffff;
+  --accent-text: #C2410C;  /* accent su fondo chiaro — contrasto AA */
+  --muted-footer:#8A919E;  /* testo muted su fondo scuro — contrasto AA */
+  --grey-100:    #E2E8F0;
+  --grey-400:    #9CA3AF;
+  --grey-500:    #6B7280;
+  --grey-600:    #4B5563;
+  --grey-700:    #374151;
+
+  /* Bordi su fondo chiaro / scuro */
+  --line-dark:   rgba(26,29,35,.14);
+  --line-dark-2: rgba(26,29,35,.18);
+  --line-dark-3: rgba(26,29,35,.25);
+  --line-light:  rgba(250,250,248,.16);
+  --line-light-2:rgba(255,255,255,.3);
+  --line-light-3:rgba(250,250,248,.08);
+
+  /* Tipografia */
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+  --font-mono:    'Space Mono', ui-monospace, monospace;
+
+  /* Scala tipografica — clamp() identici al prototipo */
+  --fs-h1:        clamp(34px, 5.4vw, 74px);
+  --fs-h1-home:   clamp(38px, 6.2vw, 86px);
+  --fs-h2:        clamp(34px, 5vw, 68px);
+  --fs-h2-sm:     clamp(26px, 3.4vw, 44px);
+  --fs-h3:        clamp(26px, 3.2vw, 42px);
+  --fs-lead:      clamp(15px, 1.4vw, 17.5px);
+  --fs-body:      15.5px;
+  --fs-eyebrow:   11px;
+
+  /* Spazi */
+  --pad-x:        clamp(20px, 4vw, 64px);
+  --pad-x-header: clamp(20px, 4vw, 56px);
+  --sec-y:        clamp(56px, 8vw, 104px);
+  --sec-y-lg:     clamp(64px, 9vw, 116px);
+  --gap:          clamp(24px, 4vw, 64px);
+  --maxw:         1280px;
+
+  /* Breakpoint di riferimento (documentazione: le media query li usano letterali)
+     900px  = passaggio layout a colonna singola (era isNarrow nel prototipo)
+     1180px = passaggio nav a hamburger  */
+  --radius:       2px;
+}
+
+/* ── Font: struttura pronta per il self-hosting ────────────────────────────────
+   Oggi i font arrivano da Google Fonts con display=swap (vedi SEOHead.astro).
+   Per passare al self-hosting: mettere i .woff2 in /public/fonts, decommentare
+   i blocchi qui sotto e rimuovere il <link> a fonts.googleapis.com.
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/fonts/space-grotesk-500.woff2') format('woff2');
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter-400.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Space Mono';
+  src: url('/fonts/space-mono-700.woff2') format('woff2');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+*/
+
+/* ── Reset e base ─────────────────────────────────────────────────────────── */
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--offwhite);
+  font-family: var(--font-body);
+  color: var(--dark);
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; }
+
+a { text-decoration: none; color: var(--accent-text); }
+a:hover { color: var(--orange-hover); }
+
+:where(h1, h2, h3, h4) { text-wrap: balance; }
+:where(p, li, blockquote, figcaption) { text-wrap: pretty; }
+
+/* Focus visibile — unico stile su tutto il sito */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 3px;
+}
+
+/* Target del skip-link: non deve mostrare un anello inutile */
+#main-content:focus { outline: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: .001ms !important;
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Utility condivise ────────────────────────────────────────────────────── */
+.container { max-width: var(--maxw); margin: 0 auto; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+.eyebrow {
+  display: block;
+  font: 700 var(--fs-eyebrow) var(--font-mono);
+  letter-spacing: .16em;
+  color: var(--orange);
+  margin: 0 0 22px;
+}
+.section { padding: var(--sec-y) var(--pad-x); }
+.section--dark { background: var(--dark); }
+.section--light { background: var(--offwhite); }

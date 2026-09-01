@@ -1,0 +1,51 @@
+---
+import { site } from '../data/site.js';
+import { services, companyNav, legalNav } from '../data/navigation.js';
+const { current } = Astro.props;
+---
+<footer class="site-footer">
+  <div class="site-footer__grid">
+    <div>
+      <div class="brand" style="margin-bottom:12px">
+        <span class="brand__box"><img src="/media/logo-matic.png" alt="MATIC" style="height:28px;width:auto;display:block" width="1254" height="1254" /></span>
+        <span style="font:700 19px var(--font-display);color:var(--offwhite)">MATIC</span>
+      </div>
+      <p>{site.footerTagline}</p>
+    </div>
+
+    <div>
+      <div class="site-footer__label">CONTATTI</div>
+      <div class="site-footer__col">
+        <a href={site.maps} target="_blank" rel="noopener">{site.address.street}<br />{site.address.zip} {site.address.city} {site.address.province}</a>
+        <a href={site.tel.href}>Tel. {site.tel.display}</a>
+        <a href={site.email.href}>{site.email.display}</a>
+        <a href={site.whatsapp.href} target="_blank" rel="noopener">WhatsApp: {site.whatsapp.display}</a>
+      </div>
+    </div>
+
+    <div>
+      <div class="site-footer__label">SERVIZI</div>
+      <div class="site-footer__col">
+        {services.map((s) => (
+          <a href={s.slug} aria-current={current === s.slug ? 'page' : undefined}>{s.label}</a>
+        ))}
+      </div>
+    </div>
+
+    <div>
+      <div class="site-footer__label">AZIENDA</div>
+      <div class="site-footer__col">
+        {companyNav.map((c) => (
+          <a href={c.slug} aria-current={current === c.slug ? 'page' : undefined}>{c.label}</a>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <div class="site-footer__legal">
+    <span>{site.copyright}</span>
+    <div style="display:flex;gap:18px">
+      {legalNav.map((l) => <a href={l.slug}>{l.label}</a>)}
+    </div>
+  </div>
+</footer>
